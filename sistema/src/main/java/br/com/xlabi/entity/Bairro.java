@@ -27,7 +27,7 @@ import br.com.xlabi.result.JsonDateSerializer;
 
 /* autor gerador de renan gomes .2017-08-29 20:35:29  */
 
-@Entity
+@Entity 
 @Table(name = "bairro")
 public class Bairro extends AbstractEntity {
 	private static final long serialVersionUID = 1L;
