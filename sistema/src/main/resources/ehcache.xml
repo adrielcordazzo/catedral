@@ -1,0 +1,131 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="true"
+	monitoring="autodetect" dynamicConfig="true">
+	<diskStore path="java.io.tmpdir" />
+	<cache name="listAllEntityCidade" maxEntriesLocalHeap="100"
+		maxEntriesLocalDisk="1000" eternal="false" timeToIdleSeconds="300"
+		timeToLiveSeconds="600" memoryStoreEvictionPolicy="LFU"
+		transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+	<cache name="listAllCidade" maxEntriesLocalHeap="100"
+		maxEntriesLocalDisk="1000" eternal="false" timeToIdleSeconds="300"
+		timeToLiveSeconds="600" memoryStoreEvictionPolicy="LFU"
+		transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+
+
+
+	<cache name="BairrolistAllEntity" maxEntriesLocalHeap="100"
+		maxEntriesLocalDisk="1000" eternal="false" timeToIdleSeconds="300"
+		timeToLiveSeconds="600" memoryStoreEvictionPolicy="LFU"
+		transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+	<cache name="BairrolistAll" maxEntriesLocalHeap="100"
+		maxEntriesLocalDisk="1000" eternal="false" timeToIdleSeconds="300"
+		timeToLiveSeconds="600" memoryStoreEvictionPolicy="LFU"
+		transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+
+
+	<cache name="EstadolistAllEntity" maxEntriesLocalHeap="100"
+		maxEntriesLocalDisk="1000" eternal="false" timeToIdleSeconds="300"
+		timeToLiveSeconds="600" memoryStoreEvictionPolicy="LFU"
+		transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+	<cache name="EstadolistAll" maxEntriesLocalHeap="100"
+		maxEntriesLocalDisk="1000" eternal="false" timeToIdleSeconds="300"
+		timeToLiveSeconds="600" memoryStoreEvictionPolicy="LFU"
+		transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+
+
+	<cache name="OcupacaolistAllEntity" maxEntriesLocalHeap="100"
+		maxEntriesLocalDisk="1000" eternal="false" timeToIdleSeconds="300"
+		timeToLiveSeconds="600" memoryStoreEvictionPolicy="LFU"
+		transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+	<cache name="OcupacaolistAll" maxEntriesLocalHeap="100"
+		maxEntriesLocalDisk="1000" eternal="false" timeToIdleSeconds="300"
+		timeToLiveSeconds="600" memoryStoreEvictionPolicy="LFU"
+		transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+
+	<cache name="ImovelTipolistAllEntity" maxEntriesLocalHeap="100"
+		maxEntriesLocalDisk="1000" eternal="false" timeToIdleSeconds="300"
+		timeToLiveSeconds="600" memoryStoreEvictionPolicy="LFU"
+		transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+	<cache name="ImovelTipolistAll" maxEntriesLocalHeap="100"
+		maxEntriesLocalDisk="1000" eternal="false" timeToIdleSeconds="300"
+		timeToLiveSeconds="600" memoryStoreEvictionPolicy="LFU"
+		transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+
+	<cache name="NegociacaolistAllEntity" maxEntriesLocalHeap="100"
+		maxEntriesLocalDisk="1000" eternal="false" timeToIdleSeconds="300"
+		timeToLiveSeconds="600" memoryStoreEvictionPolicy="LFU"
+		transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+	<cache name="NegociacaolistAll" maxEntriesLocalHeap="100"
+		maxEntriesLocalDisk="1000" eternal="false" timeToIdleSeconds="300"
+		timeToLiveSeconds="600" memoryStoreEvictionPolicy="LFU"
+		transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+
+	<cache name="ComodidadelistAllEntity" maxEntriesLocalHeap="100"
+		maxEntriesLocalDisk="1000" eternal="false" timeToIdleSeconds="300"
+		timeToLiveSeconds="600" memoryStoreEvictionPolicy="LFU"
+		transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+	<cache name="ComodidadelistAll" maxEntriesLocalHeap="100"
+		maxEntriesLocalDisk="1000" eternal="false" timeToIdleSeconds="300"
+		timeToLiveSeconds="600" memoryStoreEvictionPolicy="LFU"
+		transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+
+	<cache name="UsuariolistAllEntity" maxEntriesLocalHeap="100"
+		maxEntriesLocalDisk="1000" eternal="false" timeToIdleSeconds="300"
+		timeToLiveSeconds="600" memoryStoreEvictionPolicy="LFU"
+		transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+	<cache name="UsuariolistAll" maxEntriesLocalHeap="100"
+		maxEntriesLocalDisk="1000" eternal="false" timeToIdleSeconds="300"
+		timeToLiveSeconds="600" memoryStoreEvictionPolicy="LFU"
+		transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+
+
+	<cache name="listDestaque" maxEntriesLocalHeap="100"
+		maxEntriesLocalDisk="1000" eternal="false" timeToIdleSeconds="300"
+		timeToLiveSeconds="600" memoryStoreEvictionPolicy="LFU"
+		transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+	<cache name="listProximidade" maxEntriesLocalHeap="100"
+		maxEntriesLocalDisk="1000" eternal="false" timeToIdleSeconds="300"
+		timeToLiveSeconds="600" memoryStoreEvictionPolicy="LFU"
+		transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+
+
+
+
+
+</ehcache>

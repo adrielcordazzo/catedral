@@ -1,0 +1,20 @@
+tinymce.addI18n('pt_BR', {
+    'Icons': 'Ícones',
+    'Web Application': 'App',
+    'File Type': 'Tipo de Arquivo',
+    'Spinner': 'Spinner',
+    'Form Control': 'Form Control',
+    'Currency': 'Ocorrência',
+    'Text Editor': 'Text Editor',
+    'Directional': 'Directional',
+    'Video Player': 'Video Player',
+    'Brand': 'Brand',
+    'Medical': 'Medical',
+    'Transportation': 'Transportation',
+    'Gender': 'Gender',
+    'Payment': 'Payment',
+    'Chart': 'Chart',
+    'Hand': 'Hand',
+    'Search': 'Search',
+    'No icons matched your search': 'Nada foi encontrado'
+});
