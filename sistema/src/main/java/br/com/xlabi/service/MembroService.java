@@ -132,6 +132,10 @@ public class MembroService extends AbstractService<String, Membro> {
 	public Membro setReferencias(Membro p, SessaoUser sessao) {
 		p.setContratante(sessao.getContratante());
 		p.setUsuario(sessao.getUsuario());
+		
+		if (p.getId() != null) {
+			deleteCargos(p.getId());
+		} 
 
 		for (Membrocargo i : p.getCargos()) {
 			i.setMembro(p);

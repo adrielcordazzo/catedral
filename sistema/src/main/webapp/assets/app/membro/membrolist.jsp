@@ -26,7 +26,7 @@
           <thead>
             <tr>
               
-              
+              <th>Foto</th>
               <th>Nome</th>
               <th>E-mail</th> 
               <th>Telefone</th>
@@ -36,6 +36,7 @@
           </thead>
           <tbody>
             <tr class="model">
+              <td class="m-foto" style="width: 150px;"></td>
               <td class="m-nome">{nome}</td>
               <td class="m-nome">{email}</td>
               <td class="m-nome">{telefone}</td>

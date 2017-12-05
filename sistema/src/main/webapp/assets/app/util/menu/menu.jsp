@@ -28,6 +28,13 @@
 		</a>
 	</li>
 
+	<li>
+		<a href="#/conteudo">
+			<i class="fa fa-folder"></i>
+			<span>Conteúdo</span> 
+		</a>
+	</li>
+
 	
 	
 
