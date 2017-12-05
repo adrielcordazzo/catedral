@@ -1,6 +1,7 @@
 
 package br.com.xlabi.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -8,9 +9,11 @@ import javax.transaction.Transactional;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.SimpleExpression;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
-import br.com.xlabi.entity.Membro;
 import br.com.xlabi.entity.Membrocargo;
 import br.com.xlabi.result.PaginateForm;
 import br.com.xlabi.result.Result;
@@ -19,14 +22,14 @@ import br.com.xlabi.service.geral.AbstractService;
 
 @Service
 @Transactional
-public class MembroService extends AbstractService<String, Membro> {
+public class MembrocargoService extends AbstractService<String, Membrocargo> {
 
-	public Membro save(Membro membro, SessaoUser sessao) {
+	public Membrocargo save(Membrocargo membrocargo, SessaoUser sessao) {
 
-		setReferencias(membro, sessao);
+		setReferencias(membrocargo, sessao);
 		try {
-			super.save(membro);
-			return membro;
+			super.save(membrocargo);
+			return membrocargo;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -35,9 +38,9 @@ public class MembroService extends AbstractService<String, Membro> {
 
 	public boolean delete(String id, SessaoUser sessao) {
 		try {
-			Membro membro = get(id, sessao);
-			if (membro != null) {
-				super.delete(membro);
+			Membrocargo membrocargo = get(id, sessao);
+			if (membrocargo != null) {
+				super.delete(membrocargo);
 				return true;
 			}
 		} catch (Exception e) {
@@ -46,11 +49,11 @@ public class MembroService extends AbstractService<String, Membro> {
 		return false;
 	}
 
-	public Membro externalid(String id, SessaoUser sessao) {
+	public Membrocargo externalid(String id, SessaoUser sessao) {
 		SimpleExpression restricao = Restrictions.eq("externalid", id);
 		SimpleExpression ruser = retriction("usuario.id", null, sessao);
 		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
-		Membro temp = super.get(restricao, ruser, rcontratante);
+		Membrocargo temp = super.get(restricao, ruser, rcontratante);
 		inicialize(temp);
 		return temp;
 	}
@@ -62,11 +65,11 @@ public class MembroService extends AbstractService<String, Membro> {
 		return super.count(restricao, ruser, rcontratante);
 	}
 
-	public Membro get(String id, SessaoUser sessao) {
+	public Membrocargo get(String id, SessaoUser sessao) {
 		SimpleExpression restricao = Restrictions.eq("id", id);
 		SimpleExpression ruser = retriction("usuario.id", null, sessao);
 		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
-		Membro temp = super.get(restricao, ruser, rcontratante);
+		Membrocargo temp = super.get(restricao, ruser, rcontratante);
 		inicialize(temp);
 		return temp;
 	}
@@ -87,11 +90,11 @@ public class MembroService extends AbstractService<String, Membro> {
 		return result;
 	}
 
-	public List<Membro> listAllEntity(SessaoUser sessao) {
+	public List<Membrocargo> listAllEntity(SessaoUser sessao) {
 		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
 		Result result = super.listAllRestricao(rcontratante);
 		inicializeList(result.getList());
-		return (List<Membro>) result.getList();
+		return (List<Membrocargo>) result.getList();
 	}
 
 	public Result listAll(SessaoUser sessao) {
@@ -101,41 +104,28 @@ public class MembroService extends AbstractService<String, Membro> {
 		return result;
 	}
 
-	public void inicialize(Membro membro) {
-		if (membro != null) {
-			membro.getId();
-			for(Membrocargo c : membro.getCargos()) {
-				c.getId();
-			}
+	public void inicialize(Membrocargo membrocargo) {
+		if (membrocargo != null) {
+			membrocargo.getId();
 		}
 	}
 
 	public void inicializeList(List<?> list) {
 		if (list != null) {
 			for (Object p : list) {
-				inicialize((Membro) p);
+				inicialize((Membrocargo) p);
 			}
 		}
 	}
 
-	public Membro synchronizeAndSave(Membro p, Membro vs) {
+	public Membrocargo synchronizeAndSave(Membrocargo p, Membrocargo vs) {
 
 		super.save(p);
 		return p;
 	}
-	
-	public void deleteCargos(String id) {
-		String hql = "delete from Membrocargo p " + " where p.membro.id=:id ";
-		getSession().createQuery(hql).setString("id", id).executeUpdate();
-	}
 
-	public Membro setReferencias(Membro p, SessaoUser sessao) {
-		p.setContratante(sessao.getContratante());
-		p.setUsuario(sessao.getUsuario());
+	public Membrocargo setReferencias(Membrocargo p, SessaoUser sessao) {
 
-		for (Membrocargo i : p.getCargos()) {
-			i.setMembro(p);
-		}
 
 		return p;
 	}

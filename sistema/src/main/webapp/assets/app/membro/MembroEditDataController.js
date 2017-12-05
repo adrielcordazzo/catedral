@@ -36,6 +36,8 @@
                 }
             }
 
+            console.log("CARGOS",cargos);
+
             require(["util/groupdados/GroupDadosController"],function(GroupForm){
                 var groupForm = new GroupForm(cargos,dados,"cargo");
                 self.cargos = groupForm;

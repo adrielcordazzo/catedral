@@ -20,39 +20,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.xlabi.controller.geral.AbstractController;
-import br.com.xlabi.entity.Membro;
+import br.com.xlabi.entity.Membrocargo;
 import br.com.xlabi.result.PaginateForm;
 import br.com.xlabi.result.Result;
 import br.com.xlabi.result.SessaoUser;
-import br.com.xlabi.service.BairroService;
-import br.com.xlabi.service.CargoService;
+import br.com.xlabi.service.MembrocargoService;
 import br.com.xlabi.service.CidadeService;
-import br.com.xlabi.service.EstadoService;
-import br.com.xlabi.service.MembroService;
 
 @Controller
 
-public class MembroController extends AbstractController {
+public class MembrocargoController extends AbstractController {
 
 
 	@Autowired
-	private MembroService membroService;
+	private MembrocargoService membrocargoService;
 
 	@Autowired
+
 	CidadeService cidadeServ;
-	
-	@Autowired
-	BairroService bairroServ;
-	
-	@Autowired
-	EstadoService estadoServ;
-	
-	@Autowired
-	CargoService cargoServ;
 
-	@RequestMapping(value = { "/membro/save" }, method = { RequestMethod.POST,
+	@RequestMapping(value = { "/membrocargo/save" }, method = { RequestMethod.POST,
 			RequestMethod.PUT }, consumes = "application/json")
-	public @ResponseBody ResponseEntity<Result> update(@Valid @RequestBody Membro membro, HttpServletRequest request,
+	public @ResponseBody ResponseEntity<Result> update(@Valid @RequestBody Membrocargo membrocargo, HttpServletRequest request,
 			BindingResult bindingResult) {
 		Result result = new Result();
 		HttpStatus returnStatus = HttpStatus.OK;
@@ -61,19 +50,19 @@ public class MembroController extends AbstractController {
 			return super.acceptRequest(sessao, bindingResult);
 		}
 
-		if (membroService.save(membro, sessao) != null) {
-			result.addSuccessMessage(getMessage("sucesso.save", new String[] { "membro", "" }));
-			result.setData(membro);
+		if (membrocargoService.save(membrocargo, sessao) != null) {
+			result.addSuccessMessage(getMessage("sucesso.save", new String[] { "membrocargo", "" }));
+			result.setData(membrocargo);
 		} else {
 			returnStatus = HttpStatus.NO_CONTENT;
-			result.addErrorMessage(getMessage("error.save", new String[] { "membro", "" }));
+			result.addErrorMessage(getMessage("error.save", new String[] { "membrocargo", "" }));
 		}
 
 		return new ResponseEntity<Result>(result, returnStatus);
 
 	}
 
-	@RequestMapping(value = { "/membro/form" }, method = RequestMethod.GET, consumes = "application/json")
+	@RequestMapping(value = { "/membrocargo/form" }, method = RequestMethod.GET, consumes = "application/json")
 	public @ResponseBody ResponseEntity<Result> form(HttpServletRequest request) {
 
 		Result result = new Result();
@@ -85,17 +74,14 @@ public class MembroController extends AbstractController {
 
 		HashMap<String, Object> dados = new HashMap<String, Object>();
 
-		dados.put("modelo", new Membro());
+		dados.put("modelo", new Membrocargo());
 		dados.put("cidade", cidadeServ.listAllEntity(sessao));
-		dados.put("bairro", bairroServ.listAllEntity(sessao));
-		dados.put("estado", estadoServ.listAllEntity(sessao));
-		dados.put("cargos", cargoServ.listAllEntity(sessao));
 
 		result.setData(dados);
 		return new ResponseEntity<Result>(result, returnStatus);
 	}
 
-	@RequestMapping(value = { "/membro/{id}" }, method = RequestMethod.DELETE, consumes = "application/json")
+	@RequestMapping(value = { "/membrocargo/{id}" }, method = RequestMethod.DELETE, consumes = "application/json")
 	public @ResponseBody ResponseEntity<Result> delete(@PathVariable("id") String id, HttpServletRequest request) {
 
 		Result result = new Result();
@@ -104,24 +90,24 @@ public class MembroController extends AbstractController {
 		if (super.acceptRequest(sessao, null) != null) {
 			return super.acceptRequest(sessao, null);
 		}
-		Membro u = membroService.get(id, sessao);
+		Membrocargo u = membrocargoService.get(id, sessao);
 		result = referenciasDelete(u, result, sessao);
 		if (!result.isValid()) {
 			returnStatus = HttpStatus.OK;
 			return new ResponseEntity<Result>(result, returnStatus);
 		}
-		if (membroService.delete(id, sessao)) {
+		if (membrocargoService.delete(id, sessao)) {
 			result.setData(null);
-			result.addSuccessMessage(getMessage("sucesso.delete", new String[] { "membro", "" }));
+			result.addSuccessMessage(getMessage("sucesso.delete", new String[] { "membrocargo", "" }));
 		} else {
 			returnStatus = HttpStatus.NO_CONTENT;
 
-			result.addError("get", getMessage("error.delete", new String[] { "membro", "" }));
+			result.addError("get", getMessage("error.delete", new String[] { "membrocargo", "" }));
 		}
 		return new ResponseEntity<Result>(result, returnStatus);
 	}
 
-	@RequestMapping(value = { "/membro/deleteAll" }, method = RequestMethod.DELETE, consumes = "application/json")
+	@RequestMapping(value = { "/membrocargo/deleteAll" }, method = RequestMethod.DELETE, consumes = "application/json")
 	public @ResponseBody ResponseEntity<Result> deleteAll(@RequestBody String[] ids, HttpServletRequest request,
 			BindingResult bindingResult) {
 
@@ -134,20 +120,20 @@ public class MembroController extends AbstractController {
 
 		List<String> retorno = new ArrayList<String>();
 
-		Membro membro = new Membro();
+		Membrocargo membrocargo = new Membrocargo();
 
 		for (int i = 0; i < ids.length; i++) {
-			membro = membroService.get(ids[i], sessao);
-			result = referenciasDelete(membro, result, sessao);
+			membrocargo = membrocargoService.get(ids[i], sessao);
+			result = referenciasDelete(membrocargo, result, sessao);
 			if (!result.isValid()) {
 				returnStatus = HttpStatus.OK;
 				return new ResponseEntity<Result>(result, returnStatus);
 			}
-			if (membroService.delete(ids[i], sessao)) {
+			if (membrocargoService.delete(ids[i], sessao)) {
 				retorno.add(ids[i]);
 			} else {
 				returnStatus = HttpStatus.NO_CONTENT;
-				result.addError("get", getMessage("error.delete", new String[] { "membro", "" }));
+				result.addError("get", getMessage("error.delete", new String[] { "membrocargo", "" }));
 			}
 		}
 
@@ -156,7 +142,7 @@ public class MembroController extends AbstractController {
 		return new ResponseEntity<Result>(result, returnStatus);
 	}
 
-	@RequestMapping(value = { "/membro/{id}" }, method = RequestMethod.GET, consumes = "application/json")
+	@RequestMapping(value = { "/membrocargo/{id}" }, method = RequestMethod.GET, consumes = "application/json")
 	public @ResponseBody ResponseEntity<Result> get(@PathVariable("id") String id, HttpServletRequest request) {
 
 		Result result = new Result();
@@ -165,19 +151,19 @@ public class MembroController extends AbstractController {
 		if (super.acceptRequest(sessao, null) != null) {
 			return super.acceptRequest(sessao, null);
 		}
-		Membro membro = membroService.get(id, sessao);
+		Membrocargo membrocargo = membrocargoService.get(id, sessao);
 
-		if (membro != null) {
-			destroyProxyClass(membro);
-			result.setData(membro);
+		if (membrocargo != null) {
+			destroyProxyClass(membrocargo);
+			result.setData(membrocargo);
 		} else {
 			returnStatus = HttpStatus.NO_CONTENT;
-			result.addError("get", getMessage("error.find", new String[] { "membro" }));
+			result.addError("get", getMessage("error.find", new String[] { "membrocargo" }));
 		}
 		return new ResponseEntity<Result>(result, returnStatus);
 	}
 
-	@RequestMapping(value = { "/membro/list", "/api/membro/list" }, method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = { "/membrocargo/list", "/api/membrocargo/list" }, method = RequestMethod.POST, consumes = "application/json")
 	public @ResponseBody ResponseEntity<Result> list(@RequestBody PaginateForm pages, HttpServletRequest request,
 			BindingResult bindingResult) {
 
@@ -187,14 +173,14 @@ public class MembroController extends AbstractController {
 		if (super.acceptRequest(sessao, bindingResult) != null) {
 			return super.acceptRequest(sessao, bindingResult);
 		}
-		result = membroService.list(pages, sessao);
+		result = membrocargoService.list(pages, sessao);
 		destroyProxyClassList(result.getList());
 
 		return new ResponseEntity<Result>(result, returnStatus);
 
 	}
 
-	@RequestMapping(value = { "/membro/listAll","/api/membro/listAll" }, method = RequestMethod.GET, consumes = "application/json")
+	@RequestMapping(value = { "/membrocargo/listAll","/api/membrocargo/listAll" }, method = RequestMethod.GET, consumes = "application/json")
 	public @ResponseBody ResponseEntity<Result> listAll(HttpServletRequest request) {
 		Result result = new Result();
 		HttpStatus returnStatus = HttpStatus.OK;
@@ -202,27 +188,27 @@ public class MembroController extends AbstractController {
 		if (super.acceptRequest(sessao, null) != null) {
 			return super.acceptRequest(sessao, null);
 		}
-		result = membroService.listAll(sessao);
+		result = membrocargoService.listAll(sessao);
 
 		destroyProxyClassList(result.getList());
 		return new ResponseEntity<Result>(result, returnStatus);
 	}
 
-	public Result referenciasDelete(Membro p, Result result, SessaoUser sessao) {
+	public Result referenciasDelete(Membrocargo p, Result result, SessaoUser sessao) {
 
 		Integer r = 0;
 
 		return result;
 	}
 
-	public void destroyProxyClass(Membro p) {
-		//p.setCargos(null);
+	public void destroyProxyClass(Membrocargo p) {
+
 	}
 
 	public void destroyProxyClassList(List<?> list) {
 		if (list != null) {
 			for (Object p : list) {
-				destroyProxyClass((Membro) p);
+				destroyProxyClass((Membrocargo) p);
 			}
 		}
 	}

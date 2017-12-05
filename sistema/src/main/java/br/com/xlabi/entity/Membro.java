@@ -1,14 +1,19 @@
 
 package br.com.xlabi.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -112,14 +117,44 @@ public class Membro extends AbstractEntity {
 	@Column(name = "filhos")
 	private String filhos;
 	
+	@Column(name = "escolaridade")
+	private String escolaridade;
+	
+	@Column(name = "profissao")
+	private String profissao;
+	
+	@Column(name = "recebidopor")
+	private String recebidopor;
+	
+	@Column(name = "batizadoespiritosanto")
+	private String batizadoespiritosanto;
+	
+	@Column(name = "dataentrada")
+	private String dataentrada;
+	
+	@Column(name = "datasaida")
+	private String datasaida;
+	
 	@ManyToOne()
 	@JoinColumn(name = "contratante_id", updatable = false)
 	@JsonIgnore
 	private Contratante contratante;
+	
 	@ManyToOne()
 	@JoinColumn(name = "usuario_id")
 	@JsonIgnore
 	private Usuario usuario;
+	
+	@OneToMany(mappedBy = "membro", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	private List<Membrocargo> cargos = new ArrayList<Membrocargo>();
+
+	public List<Membrocargo> getCargos() {
+		return cargos;
+	}
+
+	public void setCargos(List<Membrocargo> cargos) {
+		this.cargos = cargos;
+	}
 
 	public String getId() {
 		return id;
@@ -295,6 +330,54 @@ public class Membro extends AbstractEntity {
 
 	public void setFilhos(String filhos) {
 		this.filhos = filhos;
+	}
+
+	public String getEscolaridade() {
+		return escolaridade;
+	}
+
+	public void setEscolaridade(String escolaridade) {
+		this.escolaridade = escolaridade;
+	}
+
+	public String getProfissao() {
+		return profissao;
+	}
+
+	public void setProfissao(String profissao) {
+		this.profissao = profissao;
+	}
+
+	public String getRecebidopor() {
+		return recebidopor;
+	}
+
+	public void setRecebidopor(String recebidopor) {
+		this.recebidopor = recebidopor;
+	}
+
+	public String getBatizadoespiritosanto() {
+		return batizadoespiritosanto;
+	}
+
+	public void setBatizadoespiritosanto(String batizadoespiritosanto) {
+		this.batizadoespiritosanto = batizadoespiritosanto;
+	}
+
+	public String getDataentrada() {
+		return dataentrada;
+	}
+
+	public void setDataentrada(String dataentrada) {
+		this.dataentrada = dataentrada;
+	}
+
+	public String getDatasaida() {
+		return datasaida;
+	}
+
+	public void setDatasaida(String datasaida) {
+		this.datasaida = datasaida;
 	}
 
 	public Contratante getContratante() {

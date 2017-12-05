@@ -25,8 +25,6 @@ import br.com.xlabi.service.geral.AbstractService;
 @Transactional
 public class CargoService extends AbstractService<String, Cargo> {
 
-	@Caching(evict = { @CacheEvict(value = "CargolistAllEntity", key = "#sessao.contratante.id"),
-			@CacheEvict(value = "CargolistAll", key = "#sessao.contratante.id") })
 	public Cargo save(Cargo cargo, SessaoUser sessao) {
 
 		setReferencias(cargo, sessao);
@@ -93,7 +91,6 @@ public class CargoService extends AbstractService<String, Cargo> {
 		return result;
 	}
 
-	@Cacheable(value = "CargolistAllEntity", key = "#sessao.contratante.id")
 	public List<Cargo> listAllEntity(SessaoUser sessao) {
 		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
 		Result result = super.listAllRestricao(rcontratante);
@@ -101,7 +98,6 @@ public class CargoService extends AbstractService<String, Cargo> {
 		return (List<Cargo>) result.getList();
 	}
 
-	@Cacheable(value = "CargolistAll", key = "#sessao.contratante.id")
 	public Result listAll(SessaoUser sessao) {
 		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
 		Result result = super.listAllRestricao(Order.asc("nome"), rcontratante);
