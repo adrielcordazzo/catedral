@@ -147,7 +147,7 @@ public class UsuarioController extends AbstractController {
 		// Result r = rolSer.listAll(sessao);
 		List<Role> roles = c.getRoles();
 		dados.put("modelo", new Usuario());
-		dados.put("roles", roles);
+		dados.put("roles", rolSer.listAllEntity(sessao));
 
 		result.setData(dados);
 		return new ResponseEntity<Result>(result, returnStatus);

@@ -15,6 +15,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import br.com.xlabi.entity.Bairro;
+import br.com.xlabi.entity.Membro;
 import br.com.xlabi.result.PaginateForm;
 import br.com.xlabi.result.Result;
 import br.com.xlabi.result.SessaoUser;
@@ -74,6 +75,12 @@ public class BairroService extends AbstractService<String, Bairro> {
 		Bairro temp = super.get(restricao, ruser, rcontratante);
 		inicialize(temp);
 		return temp;
+	}
+	
+	public Bairro getNome(String nome, SessaoUser sessao) {
+		SimpleExpression restricao = Restrictions.eq("nome", nome);
+		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
+		return super.get(restricao, rcontratante);
 	}
 
 	public Integer CountFk(String campo, String value, SessaoUser sessao) {

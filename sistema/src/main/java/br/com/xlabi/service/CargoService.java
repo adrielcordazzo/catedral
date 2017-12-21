@@ -74,6 +74,12 @@ public class CargoService extends AbstractService<String, Cargo> {
 		inicialize(temp);
 		return temp;
 	}
+	
+	public Cargo getNome(String nome, SessaoUser sessao) {
+		SimpleExpression restricao = Restrictions.eq("cargo", nome);
+		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
+		return super.get(restricao, rcontratante);
+	}
 
 	public Integer CountFk(String campo, String value, SessaoUser sessao) {
 		SimpleExpression restricao = Restrictions.eq(campo, value);
@@ -86,7 +92,7 @@ public class CargoService extends AbstractService<String, Cargo> {
 		SimpleExpression restricao = null;
 		SimpleExpression ruser = retriction("usuario.id", sessao.getUsuario());
 		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
-		Result result = super.listRestriction(pages, "nome", "nome", restricao, ruser, rcontratante);
+		Result result = super.listRestriction(pages, "cargo", "cargo", restricao, ruser, rcontratante);
 		inicializeList(result.getList());
 		return result;
 	}
@@ -100,7 +106,7 @@ public class CargoService extends AbstractService<String, Cargo> {
 
 	public Result listAll(SessaoUser sessao) {
 		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
-		Result result = super.listAllRestricao(Order.asc("nome"), rcontratante);
+		Result result = super.listAllRestricao(Order.asc("cargo"), rcontratante);
 		inicializeList(result.getList());
 		return result;
 	}

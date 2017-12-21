@@ -15,6 +15,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import br.com.xlabi.entity.Cidade;
+import br.com.xlabi.entity.Membro;
 import br.com.xlabi.result.PaginateForm;
 import br.com.xlabi.result.Result;
 import br.com.xlabi.result.SessaoUser;
@@ -65,6 +66,12 @@ public class CidadeService extends AbstractService<String, Cidade> {
 		Cidade temp = super.get(restricao, ruser, rcontratante);
 		inicialize(temp);
 		return temp;
+	}
+	
+	public Cidade getNome(String nome, SessaoUser sessao) {
+		SimpleExpression restricao = Restrictions.eq("nome", nome);
+		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
+		return super.get(restricao, rcontratante);
 	}
 
 	public Cidade externalid(String id, SessaoUser sessao) {

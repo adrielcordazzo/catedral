@@ -18,6 +18,10 @@
         MembroEditDataController.prototype.termineteLoadForm = function(){
             this.closeLoad();
 
+            $("#cpf").mask("999.999.999-99");
+            $("#rg").mask("9999999999");
+            $("#cep").mask("99999-999");
+
             /**/
 
             var cargos = [];

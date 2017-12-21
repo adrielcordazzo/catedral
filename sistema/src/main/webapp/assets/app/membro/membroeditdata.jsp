@@ -15,9 +15,16 @@
 
 
       <div class="row">
-        <div class="col-sm-12 form-group">
+        <div class="col-sm-11 form-group">
           <label>Nome:</label> 
           <input class="form-control " data-type="varchar" placeholder="Nome" rv-value="nome" name="nome" type="text">
+        </div>
+        <div class="col-sm-1 form-group">
+            <label>Ativo:</label> <br>
+            <label class="i-switch i-switch-lg bg-dark m-t-xs m-r">
+              <input type="checkbox" data-type="checkbox" name="ativo" rv-checked="ativo" checked="true" value="true">
+              <i></i>
+            </label>
         </div>
       </div>
 
@@ -34,7 +41,7 @@
         </div>
         <div class="col-sm-4 form-group">
           <label>CEP:</label> 
-          <input class="form-control " data-type="varchar" placeholder="CEP" rv-value="cep" name="cep" type="text">
+          <input class="form-control " data-type="varchar" id="cep" placeholder="CEP" rv-value="cep" name="cep" type="text">
         </div>
         <div class="col-sm-10 form-group">
           <label>Endereço:</label> 
@@ -77,16 +84,16 @@
       <div class="row">
         <div class="col-sm-3 form-group">
           <label>Data de Nascimento:</label> 
-          <input class="form-control data hasDatepicker" data-type="date" placeholder="Data de Nascimento" rv-value="datanascimento" name="datanascimento" id="dp1512348234405" maxlength="10" type="text">
+          <input class="form-control" data-type="date" placeholder="Data de Nascimento" rv-value="datanascimento" name="datanascimento" type="text">
         </div>
         <div class="col-sm-3 form-group">
           <label>CPF:</label> 
-          <input class="form-control " data-type="varchar" placeholder="CPF" rv-value="cpf" name="cpf" type="text">
+          <input class="form-control " data-type="varchar" id="cpf" placeholder="CPF" rv-value="cpf" name="cpf" type="text">
         </div>
         
         <div class="col-sm-3 form-group">
           <label>RG:</label> 
-          <input class="form-control " data-type="varchar" placeholder="RG" rv-value="rg" name="rg" type="text">
+          <input class="form-control " data-type="varchar" id="rg" placeholder="RG" rv-value="rg" name="rg" type="text">
         </div>
 
         <div class="col-sm-3 form-group">
@@ -133,7 +140,7 @@
       <div class="row">
         <div class="col-sm-3 form-group">
           <label>Data de Batismo:</label> 
-          <input class="form-control " data-type="varchar data" placeholder="Data de Batismo" rv-value="databatismo" name="databatismo" type="text">
+          <input class="form-control " data-type="data" placeholder="Data de Batismo" rv-value="databatismo" name="databatismo" type="text">
         </div>
         <div class="col-sm-3 form-group">
           <label>Nro da Ficha:</label> 
@@ -154,6 +161,14 @@
             <option value="sim">Sim</option>
             <option value="não">Não</option>
           </select>
+        </div>
+        <div class="col-sm-3 form-group">
+          <label>Data de Entrada:</label> 
+          <input class="form-control " data-type="varchar" placeholder="Data de Entrada" rv-value="dataentrada" name="dataentrada" type="text">
+        </div>
+        <div class="col-sm-3 form-group">
+          <label>Data de Saída:</label> 
+          <input class="form-control " data-type="data" placeholder="Data de Saída" rv-value="datasaida" name="datasaida" type="text">
         </div>
       </div>  
         

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.xlabi.entity.Cidade;
 import br.com.xlabi.entity.Estado;
+import br.com.xlabi.entity.Membro;
 import br.com.xlabi.result.PaginateForm;
 import br.com.xlabi.result.Result;
 import br.com.xlabi.result.SessaoUser;
@@ -74,6 +75,12 @@ public class EstadoService extends AbstractService<String, Estado> {
 		Estado temp = super.get(restricao, ruser, rcontratante);
 		inicialize(temp);
 		return temp;
+	}
+	
+	public Estado getUf(String nome, SessaoUser sessao) {
+		SimpleExpression restricao = Restrictions.eq("uf", nome);
+		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
+		return super.get(restricao, rcontratante);
 	}
 
 	public Integer CountFk(String campo, String value, SessaoUser sessao) {

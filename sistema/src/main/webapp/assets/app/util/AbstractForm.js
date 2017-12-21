@@ -367,6 +367,26 @@ Form.prototype.processData =  function (el,parent,parentkey) {
       }
     }
 
+    Form.prototype.serializeForm = function() {
+
+      var o = {};
+      var a = $(this.form).serializeArray();
+      var self = this;
+      $.each(a, function() {
+        if (o[this.name]) {
+          this.value = self.verificaJson(this.name, this.value);
+          if (!o[this.name].push) {
+            o[this.name] = [o[this.name]];
+          }
+          o[this.name].push(this.value || " ");
+        } else {
+          this.value = self.verificaJson(this.name, this.value);
+          o[this.name] = this.value || " ";
+        }
+      });
+      return o;
+    };
+
 
     return new Form();
 

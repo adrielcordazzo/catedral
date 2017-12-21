@@ -29,6 +29,8 @@ import br.com.xlabi.entity.geral.AbstractEntity;
 import br.com.xlabi.entity.geral.Contratante;
 import br.com.xlabi.entity.geral.Pasta;
 import br.com.xlabi.entity.geral.Usuario;
+import br.com.xlabi.result.JsonBooleanToIntDeserializer;
+import br.com.xlabi.result.JsonBooleanToIntSerializer;
 import br.com.xlabi.result.JsonDateDeserializer;
 import br.com.xlabi.result.JsonDateSerializer;
 
@@ -48,6 +50,11 @@ public class Membro extends AbstractEntity {
 	@Column(name = "nome")
 	@Size(max = 60, message = "O campo deve ter no máximo 60 caracteres")
 	private String nome;
+	
+	@JsonDeserialize(using = JsonBooleanToIntDeserializer.class)
+	@JsonSerialize(using = JsonBooleanToIntSerializer.class)
+	@Column(name = "ativo")
+	private Integer ativo;
 	
 	@Column(name = "telefone")
 	private String telefone;
@@ -162,6 +169,14 @@ public class Membro extends AbstractEntity {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public Integer getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(Integer ativo) {
+		this.ativo = ativo;
 	}
 
 	public String getNome() {

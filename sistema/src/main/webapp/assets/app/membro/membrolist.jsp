@@ -8,6 +8,7 @@
         <div class="col-sm-12 ">
           <h1 class="m-n font-thin h3 text-black pull-left">Membro</h1>
           <a data-action="inserir" class="btn btn-primary pull-right">Inserir</a>
+          <a data-action="uploadMembros" class="btn btn-success pull-right">Importar Planilha</a>
 
         </div>
       </div>

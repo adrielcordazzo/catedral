@@ -5,6 +5,7 @@
 
 	<li class="line dk"></li>
 
+
 	<li>
 		<a href="#/dashboard">
 			<i class="fa fa-dashboard"></i>
@@ -12,32 +13,36 @@
 		</a>
 	</li>
 
-
+	<sec:authorize access="hasAnyAuthority('MEMBROS','ADMINXLABI')">
 	<li>
 		<a href="#/membro">
 			<i class="fa fa-users"></i>
 			<span>Membros</span> 
 		</a>
 	</li>
-	
+	</sec:authorize>
 
+	<sec:authorize access="hasAnyAuthority('CARGOS','ADMINXLABI')">
 	<li>
 		<a href="#/cargo">
 			<i class="fa fa-book"></i>
 			<span>Cargos</span> 
 		</a>
 	</li>
+	</sec:authorize>
 
+	<sec:authorize access="hasAnyAuthority('CONTEUDO','ADMINXLABI')">
 	<li>
 		<a href="#/conteudo">
 			<i class="fa fa-folder"></i>
 			<span>Conteúdo</span> 
 		</a>
 	</li>
+	</sec:authorize>
 
 	
 	
-
+	<sec:authorize access="hasAnyAuthority('ADMINXLABI')">
 	<li>
 		<a href="" class="auto">      
 			<span class="pull-right text-muted">
@@ -148,6 +153,7 @@
 
 		</ul>
 	</li>	
+	</sec:authorize>
 
 
 	

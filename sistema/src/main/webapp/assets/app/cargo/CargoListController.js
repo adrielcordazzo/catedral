@@ -10,11 +10,11 @@
 		CargoListController.prototype.constructor = CargoListController;
 
 		CargoListController.prototype.divLoad =  "#corpoDoSistema";
-		CargoListController.prototype.urlPage = "bairro/bairrolist.jsp";
-		CargoListController.prototype.urlLoadList = "bairro/list";
-		CargoListController.prototype.url = "bairro/";
-		CargoListController.prototype.urlDelete = "bairro/";
-		CargoListController.prototype.urlDeleteAll = "bairro/deleteAll/";
+		CargoListController.prototype.urlPage = "cargo/cargolist.jsp";
+		CargoListController.prototype.urlLoadList = "cargo/list";
+		CargoListController.prototype.url = "cargo/";
+		CargoListController.prototype.urlDelete = "cargo/";
+		CargoListController.prototype.urlDeleteAll = "cargo/deleteAll/";
 
 
 		

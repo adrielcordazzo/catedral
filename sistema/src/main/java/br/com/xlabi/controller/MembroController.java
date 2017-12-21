@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.xlabi.controller.geral.AbstractController;
 import br.com.xlabi.entity.Membro;
+import br.com.xlabi.entity.geral.Arquivo;
 import br.com.xlabi.result.PaginateForm;
 import br.com.xlabi.result.Result;
 import br.com.xlabi.result.SessaoUser;
@@ -49,6 +52,30 @@ public class MembroController extends AbstractController {
 	
 	@Autowired
 	CargoService cargoServ;
+	
+	@RequestMapping(value = "/membro/upload", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Result> uploadFile(HttpServletRequest request,
+			@RequestParam("file") MultipartFile input) {
+
+		Result result = new Result();
+		HttpStatus returnStatus = HttpStatus.OK;
+		Arquivo arq = null;
+		SessaoUser sessao = this.verificaSessao(request);
+		if (super.acceptRequest(sessao, null) != null) {
+			return super.acceptRequest(sessao, null);
+		}
+
+		try {
+
+			result = membroService.readXls(input.getInputStream(), input.getOriginalFilename(), sessao);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.addError("file", "erro ao fazer o upload");
+		}
+
+		return new ResponseEntity<Result>(result, returnStatus);
+	}
 
 	@RequestMapping(value = { "/membro/save" }, method = { RequestMethod.POST,
 			RequestMethod.PUT }, consumes = "application/json")
