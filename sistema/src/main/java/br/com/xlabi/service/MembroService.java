@@ -231,7 +231,7 @@ public class MembroService extends AbstractService<String, Membro> {
 			this.verificaMembro(p, sessao, logsucess);
 
 		}
-		result.addSuccessMessage("Importação realizada com sucesso");
+		result.addSuccessMessage("ImportaÃ§Ã£o realizada com sucesso");
 		result.setList(logsucess);
 		workbook.close();
 		inputStream.close();
@@ -264,7 +264,7 @@ public class MembroService extends AbstractService<String, Membro> {
 
 			/*if (itensMembro.size() != 23) {
 
-				erros.add("Quantidade de colunas inválida  Linha " + linha);
+				erros.add("Quantidade de colunas invï¿½lida  Linha " + linha);
 
 				break;
 			}*/
@@ -293,7 +293,7 @@ public class MembroService extends AbstractService<String, Membro> {
 			String endereco = itensMembro.get(3);
 			if(endereco != null && !endereco.equals(""))
 				membro.setEndereco(endereco);
-			System.out.println("ENDEREÇO " + itensMembro.get(3));
+			System.out.println("ENDEREÃ‡O " + itensMembro.get(3));
 			
 			String cep = itensMembro.get(4);
 			if(cep != null && !cep.equals(""))
@@ -314,6 +314,15 @@ public class MembroService extends AbstractService<String, Membro> {
 			if(bairro != null) {
 				membro.setBairro(bairro);
 				System.out.println("BAIRRO " + bairro.getNome());
+			}else {
+				if(!itensMembro.get(7).trim().equals("")) {
+					cidade = cidadeServ.getNome("Bento GonÃ§alves", sessao);
+					bairro = new Bairro();
+					bairro.setCidade(cidade);
+					bairro.setNome(itensMembro.get(7).trim());
+					bairro = bairroServ.save(bairro, sessao);
+					membro.setBairro(bairro);
+				}
 			}
 			
 			try {
@@ -329,7 +338,7 @@ public class MembroService extends AbstractService<String, Membro> {
 			String estadocivil = "1";
 			if(itensMembro.get(9).trim().equals("Casado")) {
 				estadocivil = "2";
-			}else if(itensMembro.get(9).trim().equals("Viúvo")) {
+			}else if(itensMembro.get(9).trim().equals("ViÃºvo")) {
 				estadocivil = "3";
 			}else if(itensMembro.get(9).trim().equals("Separado")) {
 				estadocivil = "4";
@@ -427,7 +436,7 @@ public class MembroService extends AbstractService<String, Membro> {
 		Membro membroExisteExiste = this.getNome(membro.getNome(), sessao);
 
 		if (membroExisteExiste == null) {
-			System.out.println("membro não existe");
+			System.out.println("membro nÃ£o existe");
 
 			this.save(membro, sessao);
 
@@ -435,8 +444,10 @@ public class MembroService extends AbstractService<String, Membro> {
 
 		} else {
 			System.out.println("membro  existe");
-			/*Membro membro1 = new Membro();
-			membro1.setId(membro.getId());
+			
+			Membro membro1 = new Membro();
+			membro1 = membroExisteExiste;
+			membro1.setId(membroExisteExiste.getId());
 			membro1.setAtivo(membro.getAtivo());
 			membro1.setBairro(membro.getBairro());
 			membro1.setBatizadoespiritosanto(membro.getBatizadoespiritosanto());
@@ -465,8 +476,16 @@ public class MembroService extends AbstractService<String, Membro> {
 			membro1.setRecebidopor(membro.getRecebidopor());
 			membro1.setRg(membro.getRg());
 			membro1.setTelefone(membro.getTelefone());
+			
+			List<Membrocargo> cargos = new ArrayList<Membrocargo>();
+			for(Membrocargo c : membro.getCargos()) {
+				cargos.add(c);
+			}
+			membro1.setCargos(cargos);
+			
+			System.out.println("MEMBROOO QUE VAI SALVAR: " + membro1.getNome() + " " + membro1.getId());
 			this.save(membro1, sessao);
-			log.add("Membro Atualizado: " + membro1.getNome());*/
+			log.add("Membro Atualizado: " + membro1.getNome());
 		}
 
 		return true;
