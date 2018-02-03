@@ -31,10 +31,23 @@
 					var dado = list[i];
 
 					rivets.bind(element, dado);
+
+					var cargos = "";
+					if(dado.cargos){
+						for(var i in dado.cargos){
+							cargos += "<li>"+dado.cargos[i].cargo.cargo + "</li>";
+						}
+					}
+					if(cargos != ""){
+						cargos = "<ul>"+cargos+"</ul>";
+					}
 					
 					if(dado.imagem){
 						$(".m-foto",element).html('<img src="' + dado.imagem + '" width="100%" />'); 
+						//$(".m-foto",element).html('<img src="membro/getImagem/' + dado.id + '" width="100" />');
 					}
+
+					$(".m-cargos",element).html(cargos); 
 
 					$("[data-action='edit']", element).prop("href",'#/'+this.url+'edit/'+dado.id);
 					$("[data-action='delete']", element).click(this.del.bind(this,dado.id,element));
@@ -44,6 +57,38 @@
 					this.paginate(data.countResult);
 				}
 			}
+
+			this.detectselect();
+			this.detectselectFixo();
+
+			$("[name='aniversario']",this.divLoad).change(this.aplicaFiltro.bind(this));
+			$("[name='cargo']",this.divLoad).change(this.aplicaFiltro.bind(this));
+		}
+
+		MembroListController.prototype.aplicaFiltro = function(){
+    
+		      var self = this;
+		      var aniversario = $("[name='aniversario']",this.divLoad).val();
+		      var cargo = $("[name='cargo']",this.divLoad).val();
+
+		      self.pagination.campos = [];
+		      self.pagination.values = [];
+		      self.pagination.pagina = 1;
+
+		      
+		      if(aniversario!=null && aniversario!=""){
+		        self.pagination.campos.push("aniversario");
+		        self.pagination.values.push(aniversario);
+		        this.dado.aniversario = aniversario;
+		      }
+
+		      if(cargo!=null && cargo!=""){
+		        self.pagination.campos.push("cargo");
+		        self.pagination.values.push(cargo);
+		        this.dado.cargo = cargo;
+		      }
+
+		      self.loadTable();
 		}
 		
 		MembroListController.prototype.uploadMembros = function(data){

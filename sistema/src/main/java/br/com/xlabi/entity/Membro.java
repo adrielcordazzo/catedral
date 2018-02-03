@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -152,8 +153,32 @@ public class Membro extends AbstractEntity {
 	@JsonIgnore
 	private Usuario usuario;
 	
+	
+
 	@OneToMany(mappedBy = "membro", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	private List<Membrocargo> cargos = new ArrayList<Membrocargo>();
+	
+	@Transient
+	String aniversario;
+	
+	@Transient
+	String cargo;
+
+	public String getAniversario() {
+		return aniversario;
+	}
+
+	public void setAniversario(String aniversario) {
+		this.aniversario = aniversario;
+	}
+
+	public String getCargo() {
+		return cargo;
+	}
+
+	public void setCargo(String cargo) {
+		this.cargo = cargo;
+	}
 
 	public List<Membrocargo> getCargos() {
 		return cargos;

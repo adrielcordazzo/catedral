@@ -203,6 +203,7 @@ public class MembroController extends AbstractController {
 		}
 		return new ResponseEntity<Result>(result, returnStatus);
 	}
+	
 
 	@RequestMapping(value = { "/membro/list", "/api/membro/list" }, method = RequestMethod.POST, consumes = "application/json")
 	public @ResponseBody ResponseEntity<Result> list(@RequestBody PaginateForm pages, HttpServletRequest request,

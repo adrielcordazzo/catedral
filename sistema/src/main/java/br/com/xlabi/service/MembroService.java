@@ -14,12 +14,17 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.SimpleExpression;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,12 +74,15 @@ public class MembroService extends AbstractService<String, Membro> {
 		setReferencias(membro, sessao);
 		try {
 			super.save(membro);
+			
 			return membro;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
+	
+
 
 	public boolean delete(String id, SessaoUser sessao) {
 		try {
@@ -125,8 +133,91 @@ public class MembroService extends AbstractService<String, Membro> {
 		SimpleExpression restricao = null;
 		SimpleExpression ruser = retriction("usuario.id", sessao.getUsuario());
 		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
-		Result result = super.listRestriction(pages, "nome", "nome", restricao, ruser, rcontratante);
+		
+		Criterion restricaoaniversario = null;
+		Integer aniversario = pages.getCampos().indexOf("aniversario");
+		if (aniversario > -1) {
+			pages.getCampos().remove("aniversario");
+			String mesaniversario = pages.getValues().get(aniversario);
+			pages.getValues().remove(mesaniversario);
+			if(mesaniversario.length() < 2) {
+				mesaniversario = "0"+mesaniversario;
+			}
+			restricaoaniversario = Restrictions.sqlRestriction(" MONTH(datanascimento) = '"+mesaniversario+"' ");
+		}
+		
+		Result result = this.listRestriction(pages, "nome", "nome", restricao, ruser, rcontratante, restricaoaniversario);
 		inicializeList(result.getList());
+		return result;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Result listRestriction(PaginateForm pages, String order, String like, Criterion... restricoes) {
+
+		Criteria criteria = createEntityCriteria();
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		criteria.setMaxResults(pages.getMaxResult());
+		if (pages.getOrder() == 0) {
+			if (order != null)
+				criteria.addOrder(Order.asc(order));
+		} else {
+			if (order != null)
+				criteria.addOrder(Order.desc(order));
+		}
+
+		if (pages.getAlias() != null) {
+			criteria.createAlias(pages.getAlias(), "alias");
+		}
+
+		criteria.setFirstResult((pages.getPagina() - 1) * pages.getMaxResult());
+
+		if (pages.getSearch() != null) {
+			Criterion nome = Restrictions.like("nome", "%" + pages.getSearch() + "%");
+			Criterion ficha = Restrictions.like("numeroficha", "%" + pages.getSearch() + "%");
+
+			criteria.add(Restrictions.or(nome, ficha));
+		}
+
+		if (restricoes != null) {
+			for (Criterion r : restricoes) {
+				if (r != null)
+					criteria.add(r);
+			}
+		}
+
+		if (pages.getCampos().size() > 0) {
+			for (int i = 0; i <= pages.getCampos().size() - 1; i++) {
+				try {
+					String campo = pages.getCampos().get(i);
+					String value = pages.getValues().get(i);
+					if (value.equals("NULL") || value.equals("null")) {
+						criteria.add(Restrictions.isNull(campo));
+					} else if (value.equals("NOTNULL") || value.equals("notnull")) {
+						criteria.add(Restrictions.isNotNull(campo));
+					} else {
+						criteria.add(Restrictions.eq(campo, value));
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		Result result = new Result();
+		List<T> lista = null;
+		System.out.println("SQLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL " + criteria.toString());
+		try {
+			lista = criteria.list();
+
+			Number qt = ((Number) criteria.setProjection(Projections.rowCount()).uniqueResult());
+			Integer totalResult = 0;
+			if (qt != null)
+				totalResult = qt.intValue();
+			result.setList(lista);
+			result.setCountResult(totalResult);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return result;
 	}
 
@@ -305,7 +396,9 @@ public class MembroService extends AbstractService<String, Membro> {
 				membro.setEstado(estado);
 				System.out.println("ESTADO " + estado.getUf());
 			}
-			Cidade cidade = cidadeServ.getNome(itensMembro.get(6).trim(), sessao);
+			//System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBUSCAR CIDADE "+itensMembro.get(6).trim());
+			//Cidade cidade = cidadeServ.getNome(itensMembro.get(6).trim(), sessao);
+			Cidade cidade = cidadeServ.get("402880925fc75ff9015fc7677f7f0004", sessao);
 			if(cidade != null) {
 				membro.setCidade(cidade);
 				System.out.println("CIDADE " + cidade.getNome());
@@ -316,7 +409,8 @@ public class MembroService extends AbstractService<String, Membro> {
 				System.out.println("BAIRRO " + bairro.getNome());
 			}else {
 				if(!itensMembro.get(7).trim().equals("")) {
-					cidade = cidadeServ.getNome("Bento Gonçalves", sessao);
+					//cidade = cidadeServ.getNome("Bento Gonçalves", sessao);
+					cidade = cidadeServ.get("402880925fc75ff9015fc7677f7f0004", sessao);
 					bairro = new Bairro();
 					bairro.setCidade(cidade);
 					bairro.setNome(itensMembro.get(7).trim());
@@ -328,7 +422,7 @@ public class MembroService extends AbstractService<String, Membro> {
 			try {
 				DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
 				df.setLenient (false); 
-				Date datanascimento = df.parse (itensMembro.get(8).trim());
+				Date datanascimento = df.parse (itensMembro.get(8).trim() + "");
 				membro.setDatanascimento(datanascimento);
 				System.out.println("DTNASCIMENTO " + datanascimento.toString());
 			} catch (ParseException e) {
@@ -404,19 +498,23 @@ public class MembroService extends AbstractService<String, Membro> {
 				membro.setProfissao(prof);
 			System.out.println("PROFISSAO " + itensMembro.get(23));
 			
-			List<Membrocargo> cargos = new ArrayList<Membrocargo>();
-			String[] cargosstring = itensMembro.get(24).split(",");
-			for(String c : cargosstring) {
-				Cargo cargo = cargoServ.getNome(c.trim(), sessao);
-				if(cargo != null) {
-					Membrocargo membrocargo = new Membrocargo();
-					membrocargo.setCargo(cargo);
-					cargos.add(membrocargo);
-					System.out.println("CARGO " + cargo.getCargo());
+			if(itensMembro.size() >= 24) {
+				List<Membrocargo> cargos = new ArrayList<Membrocargo>();
+				String car = itensMembro.get(24);
+				if(car != null && !car.equals("")) {
+					String[] cargosstring = itensMembro.get(24).split(",");
+					for(String c : cargosstring) {
+						Cargo cargo = cargoServ.getNome(c.trim(), sessao);
+						if(cargo != null) {
+							Membrocargo membrocargo = new Membrocargo();
+							membrocargo.setCargo(cargo);
+							cargos.add(membrocargo);
+							System.out.println("CARGO " + cargo.getCargo());
+						}
+					}
+					membro.setCargos(cargos);
 				}
 			}
-			membro.setCargos(cargos);
-
 			System.out.println(membro.getNome());
 			membros.add(membro);
 		}
@@ -466,7 +564,7 @@ public class MembroService extends AbstractService<String, Membro> {
 			membro1.setEstado(membro.getEstado());
 			membro1.setEstadocivil(membro.getEstadocivil());
 			membro1.setFilhos(membro.getFilhos());
-			membro1.setImagem(membro.getImagem());
+			//membro1.setImagem(membro.getImagem());
 			membro1.setMae(membro.getMae());
 			membro1.setNome(membro.getNome());
 			membro1.setNumeroficha(membro.getNumeroficha());
@@ -477,11 +575,12 @@ public class MembroService extends AbstractService<String, Membro> {
 			membro1.setRg(membro.getRg());
 			membro1.setTelefone(membro.getTelefone());
 			
-			List<Membrocargo> cargos = new ArrayList<Membrocargo>();
+			/*List<Membrocargo> cargos = new ArrayList<Membrocargo>();
 			for(Membrocargo c : membro.getCargos()) {
 				cargos.add(c);
 			}
-			membro1.setCargos(cargos);
+			membro1.setCargos(cargos);*/
+			membro1.setCargos(membro.getCargos());
 			
 			System.out.println("MEMBROOO QUE VAI SALVAR: " + membro1.getNome() + " " + membro1.getId());
 			this.save(membro1, sessao);
