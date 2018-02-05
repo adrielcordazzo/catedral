@@ -211,8 +211,13 @@ public class MembroController extends AbstractController {
 		SessaoUser sessao = this.verificaSessao(request);
 
 		Membro membro = membroService.get(id, sessao);
+		
+		String imagem = membro.getImagemmembro();
+		if(imagem == null) {
+			imagem = "http://moderna.xlabi.com.br/relatorio/img/semfoto.png";
+		}
 
-		return new ResponseEntity<String>(membro.getImagemmembro(), returnStatus);
+		return new ResponseEntity<String>(imagem, returnStatus);
 	}
 	
 	@RequestMapping(value = { "/membro/saveFicha/{id}/{ficha}" }, method = RequestMethod.GET, consumes = "application/json")

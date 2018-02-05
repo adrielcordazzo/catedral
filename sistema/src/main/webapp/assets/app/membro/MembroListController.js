@@ -86,7 +86,6 @@
 		}
 
 		MembroListController.prototype.colocafoto = function(element,data){
-			console.log(arguments);
 			$(".m-foto",element).html('<img src="' + data + '" width="100%" />'); 
 		}
 

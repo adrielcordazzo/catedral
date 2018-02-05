@@ -181,9 +181,9 @@ public class MembroService extends AbstractService<String, Membro> {
 			String foto = pages.getValues().get(indexfoto);
 			pages.getValues().remove(foto);
 			if(foto.equals("1")) {
-				restricaofoto = Restrictions.isNotNull("imagem");
+				restricaofoto = Restrictions.isNotNull("imagemmembro");
 			}else {
-				restricaofoto = Restrictions.isNull("imagem");
+				restricaofoto = Restrictions.isNull("imagemmembro");
 			}
 		}
 		
