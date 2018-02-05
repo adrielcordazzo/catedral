@@ -22,9 +22,9 @@
           <input class="form-control input-lg busca" type="text" placeholder="Busca"> 
         </div>
         <div class="row">
-          <div class="col-sm-3 form-group">
+          <div class="col-sm-2 form-group">
             <label class="control-label">Aniversário: </label>
-            <select name="aniversario"  id="aniversario" class="form-control selectfixo" >
+            <select name="aniversario"  id="aniversario" class="form-control selectfixo" rv-value="aniversario">
                 <option value="">Selecione</option>
                 <option value="1">Janeiro</option>
                 <option value="2">Fevereiro</option>
@@ -40,15 +40,42 @@
                 <option value="12">Dezembro</option>
             </select>
           </div>
-          <div class="col-sm-3 form-group">
+          <div class="col-sm-2 form-group">
             <label class="control-label">Cargo: </label>
             <select name="cargo"  id="cargo" class="form-control" 
               data-select="cargo/listAll" 
               data-value="id" 
               data-desc="cargo"
               selecione="true"
+              rv-value="cargo"
               placeholder="cargo">
             </select>
+          </div>
+          <div class="col-sm-2 form-group">
+            <label class="control-label">Foto: </label>
+            <select name="foto"  id="foto" class="form-control selectfixo" rv-value="foto" >
+                <option value="">Selecione</option>
+                <option value="1">Com Foto</option>
+                <option value="2">Sem Foto</option>
+            </select>
+          </div>
+          <div class="col-sm-2 form-group">
+            <label class="control-label">Ficha: </label>
+            <select name="ficha"  id="ficha" class="form-control selectfixo" rv-value="ficha">
+                <option value="">Selecione</option>
+                <option value="1">Com Ficha</option>
+                <option value="2">Sem Ficha</option>
+            </select>
+          </div>
+          <div class="col-sm-2 form-group">
+            <label class="control-label">Ativo: </label>
+            <select name="ativo"  id="ativo" class="form-control selectfixo" rv-value="ativo">
+                <option value="1">Ativo</option>
+                <option value="0">Inativo</option>
+            </select>
+          </div>
+          <div class="col-sm-2 form-group">
+            <h4 class="m0">Total Registros <span class="totalregistros"></span></h4>
           </div>
         </div>
       </div>
@@ -70,7 +97,7 @@
           <tbody>
             <tr class="model">
               <td class="m-foto" style="width: 150px;"></td>
-              <td class="m-nome">{numeroficha}</td>
+              <td class="m-numeroficha">{numeroficha}</td>
               <td class="m-nome">{nome}</td>
               <td class="m-nome">{email}</td>
               <td class="m-nome">{telefone}</td>

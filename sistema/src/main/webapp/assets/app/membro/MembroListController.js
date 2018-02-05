@@ -3,6 +3,7 @@
 	return function(){
 		var MembroListController = function(){
 			this.loadPage(this.viewDidLoad.bind(this));
+			this.openLoad();
 		}
 
 		MembroListController.prototype =  new ListController();
@@ -26,6 +27,7 @@
 			$("tbody",this.divLoad).html("");
 			if(data.list){
 				var list = data.list;
+				$(".totalregistros",this.divLoad).text(data.countResult);
 				for(var i in list){
 					var element = $(this.modelLine).clone();
 					var dado = list[i];
@@ -42,12 +44,25 @@
 						cargos = "<ul>"+cargos+"</ul>";
 					}
 					
-					if(dado.imagem){
-						$(".m-foto",element).html('<img src="' + dado.imagem + '" width="100%" />'); 
+					//if(dado.imagem){
+						//$(".m-foto",element).html('<img src="' + dado.imagem + '" width="100%" />'); 
 						//$(".m-foto",element).html('<img src="membro/getImagem/' + dado.id + '" width="100" />');
-					}
+					//}
+
+					this.get("membro/getImagem/"+dado.id,null,this.colocafoto.bind(this,element),null,null);
 
 					$(".m-cargos",element).html(cargos); 
+
+
+					var ficha = dado.numeroficha;
+					if(dado.numeroficha == null){
+						ficha = "Sem Ficha";
+					}
+					var numeroficha = '<a class="editable numeroficha" href="#" data-type="text" data-title="Ficha">' + ficha + '</a>';
+					$(".m-numeroficha",element).html(numeroficha);
+					
+					$('.editable',element).editable()
+					.on('hidden', self.saveNumeroficha.bind(this,dado.id,element));
 
 					$("[data-action='edit']", element).prop("href",'#/'+this.url+'edit/'+dado.id);
 					$("[data-action='delete']", element).click(this.del.bind(this,dado.id,element));
@@ -63,29 +78,71 @@
 
 			$("[name='aniversario']",this.divLoad).change(this.aplicaFiltro.bind(this));
 			$("[name='cargo']",this.divLoad).change(this.aplicaFiltro.bind(this));
+			$("[name='foto']",this.divLoad).change(this.aplicaFiltro.bind(this));
+			$("[name='ficha']",this.divLoad).change(this.aplicaFiltro.bind(this));
+			$("[name='ativo']",this.divLoad).change(this.aplicaFiltro.bind(this));
+
+			this.closeLoad();
+		}
+
+		MembroListController.prototype.colocafoto = function(element,data){
+			console.log(arguments);
+			$(".m-foto",element).html('<img src="' + data + '" width="100%" />'); 
+		}
+
+		MembroListController.prototype.saveNumeroficha = function(dado, element, event, value){
+			var numeroficha = $(".numeroficha",element).text();
+			this.openLoad();
+			this.get("membro/saveFicha/"+dado+"/"+numeroficha,null,this.retornaSaveFicha.bind(this),null,null);
+		}
+
+		MembroListController.prototype.retornaSaveFicha = function(){
+			this.closeLoad();
 		}
 
 		MembroListController.prototype.aplicaFiltro = function(){
+
+			this.openLoad();	
     
 		      var self = this;
 		      var aniversario = $("[name='aniversario']",this.divLoad).val();
 		      var cargo = $("[name='cargo']",this.divLoad).val();
+		      var foto = $("[name='foto']",this.divLoad).val();
+		      var ficha = $("[name='ficha']",this.divLoad).val();
+		      var ativo = $("[name='ativo']",this.divLoad).val();
 
 		      self.pagination.campos = [];
 		      self.pagination.values = [];
 		      self.pagination.pagina = 1;
 
-		      
+		      this.dado.aniversario = aniversario;
 		      if(aniversario!=null && aniversario!=""){
 		        self.pagination.campos.push("aniversario");
 		        self.pagination.values.push(aniversario);
-		        this.dado.aniversario = aniversario;
 		      }
 
+		      this.dado.cargo = cargo;
 		      if(cargo!=null && cargo!=""){
 		        self.pagination.campos.push("cargo");
 		        self.pagination.values.push(cargo);
-		        this.dado.cargo = cargo;
+		      }
+
+		      this.dado.foto = foto;
+		      if(foto!=null && foto!=""){
+		        self.pagination.campos.push("foto");
+		        self.pagination.values.push(foto);
+		      }
+
+		      this.dado.ficha = ficha;
+		      if(ficha!=null && ficha!=""){
+		        self.pagination.campos.push("ficha");
+		        self.pagination.values.push(ficha);
+		      }
+
+		      this.dado.ativo = ativo;
+		      if(ativo!=null && ativo!=""){
+		        self.pagination.campos.push("ativo");
+		        self.pagination.values.push(ativo);
 		      }
 
 		      self.loadTable();

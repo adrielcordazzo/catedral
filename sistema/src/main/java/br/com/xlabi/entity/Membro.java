@@ -76,7 +76,12 @@ public class Membro extends AbstractEntity {
 	
 	@Column(name = "imagem")
 	@Type(type = "text")
+	@JsonIgnore
+	private String imagemmembro;
+	
+	@Transient
 	private String imagem;
+	
 	
 	@ManyToOne()
 	@JoinColumn(name = "pasta_id")
@@ -163,6 +168,14 @@ public class Membro extends AbstractEntity {
 	
 	@Transient
 	String cargo;
+
+	public String getImagemmembro() {
+		return imagemmembro;
+	}
+
+	public void setImagemmembro(String imagemmembro) {
+		this.imagemmembro = imagemmembro;
+	}
 
 	public String getAniversario() {
 		return aniversario;

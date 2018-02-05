@@ -80,9 +80,26 @@ public class MembroService extends AbstractService<String, Membro> {
 			e.printStackTrace();
 		}
 		return null;
-	}
+	}	
 	
-
+	public Membro saveFicha(String id, String ficha, SessaoUser sessao) {
+		
+		Membro membro = this.get(id, sessao);
+		if(membro != null) {
+			if(ficha.equals(""))
+				ficha = null;
+			membro.setNumeroficha(ficha);
+		}
+		try {
+			super.save(membro);
+			
+			return membro;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}	
+	
 
 	public boolean delete(String id, SessaoUser sessao) {
 		try {
@@ -119,6 +136,7 @@ public class MembroService extends AbstractService<String, Membro> {
 		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
 		Membro temp = super.get(restricao, ruser, rcontratante);
 		inicialize(temp);
+		temp.setImagem(temp.getImagemmembro());
 		return temp;
 	}
 
@@ -146,7 +164,55 @@ public class MembroService extends AbstractService<String, Membro> {
 			restricaoaniversario = Restrictions.sqlRestriction(" MONTH(datanascimento) = '"+mesaniversario+"' ");
 		}
 		
-		Result result = this.listRestriction(pages, "nome", "nome", restricao, ruser, rcontratante, restricaoaniversario);
+		SimpleExpression restricaocargo = null;
+		Integer cargo = pages.getCampos().indexOf("cargo");
+		if (cargo > -1) {
+			pages.getCampos().remove("cargo");
+			String cargoid = pages.getValues().get(cargo);
+			pages.getValues().remove(cargoid);
+			restricaocargo = Restrictions.eq("alias.cargo.id", cargoid);
+			pages.setAlias("cargos");
+		}
+		
+		Criterion restricaofoto = null;
+		Integer indexfoto = pages.getCampos().indexOf("foto");
+		if (indexfoto > -1) {
+			pages.getCampos().remove("foto");
+			String foto = pages.getValues().get(indexfoto);
+			pages.getValues().remove(foto);
+			if(foto.equals("1")) {
+				restricaofoto = Restrictions.isNotNull("imagem");
+			}else {
+				restricaofoto = Restrictions.isNull("imagem");
+			}
+		}
+		
+		Criterion restricaoficha = null;
+		Integer indexficha = pages.getCampos().indexOf("ficha");
+		if (indexficha > -1) {
+			pages.getCampos().remove("ficha");
+			String ficha = pages.getValues().get(indexficha);
+			pages.getValues().remove(ficha);
+			if(ficha.equals("1")) {
+				restricaoficha = Restrictions.isNotNull("numeroficha");
+			}else {
+				restricaoficha = Restrictions.isNull("numeroficha");
+			}
+		}
+		
+		Criterion restricaoativo = null;
+		Integer indexativo = pages.getCampos().indexOf("ativo");
+		if (indexativo > -1) {
+			pages.getCampos().remove("ativo");
+			String ativo = pages.getValues().get(indexativo);
+			pages.getValues().remove(ativo);
+			if(ativo.equals("1"))
+				restricaoativo = Restrictions.eq("ativo",1);
+			else
+				restricaoativo = Restrictions.isNull("ativo");
+		}
+		
+		Result result = this.listRestriction(pages, "nome", "nome", restricao, ruser, rcontratante, restricaoaniversario, restricaocargo, restricaofoto, restricaoficha, restricaoativo);
 		inicializeList(result.getList());
 		return result;
 	}
@@ -204,10 +270,9 @@ public class MembroService extends AbstractService<String, Membro> {
 		}
 		Result result = new Result();
 		List<T> lista = null;
-		System.out.println("SQLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL " + criteria.toString());
 		try {
 			lista = criteria.list();
-
+			System.out.println("SQLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL "+ criteria.toString());
 			Number qt = ((Number) criteria.setProjection(Projections.rowCount()).uniqueResult());
 			Integer totalResult = 0;
 			if (qt != null)
@@ -273,6 +338,10 @@ public class MembroService extends AbstractService<String, Membro> {
 
 		for (Membrocargo i : p.getCargos()) {
 			i.setMembro(p);
+		}
+		
+		if(p.getImagem() != null) {
+			p.setImagemmembro(p.getImagem());
 		}
 
 		return p;

@@ -99,7 +99,7 @@ public class MembroController extends AbstractController {
 		return new ResponseEntity<Result>(result, returnStatus);
 
 	}
-
+	
 	@RequestMapping(value = { "/membro/form" }, method = RequestMethod.GET, consumes = "application/json")
 	public @ResponseBody ResponseEntity<Result> form(HttpServletRequest request) {
 
@@ -196,6 +196,38 @@ public class MembroController extends AbstractController {
 
 		if (membro != null) {
 			destroyProxyClass(membro);
+			result.setData(membro);
+		} else {
+			returnStatus = HttpStatus.NO_CONTENT;
+			result.addError("get", getMessage("error.find", new String[] { "membro" }));
+		}
+		return new ResponseEntity<Result>(result, returnStatus);
+	}
+	
+	@RequestMapping(value = { "/membro/getImagem/{id}" }, method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<String> getImagem(@PathVariable("id") String id, HttpServletRequest request) {
+
+		HttpStatus returnStatus = HttpStatus.OK;
+		SessaoUser sessao = this.verificaSessao(request);
+
+		Membro membro = membroService.get(id, sessao);
+
+		return new ResponseEntity<String>(membro.getImagemmembro(), returnStatus);
+	}
+	
+	@RequestMapping(value = { "/membro/saveFicha/{id}/{ficha}" }, method = RequestMethod.GET, consumes = "application/json")
+	public @ResponseBody ResponseEntity<Result> saveFicha(@PathVariable("id") String id, @PathVariable("ficha") String ficha, HttpServletRequest request) {
+
+		Result result = new Result();
+		HttpStatus returnStatus = HttpStatus.OK;
+		SessaoUser sessao = this.verificaSessao(request);
+		if (super.acceptRequest(sessao, null) != null) {
+			return super.acceptRequest(sessao, null);
+		}
+		Membro membro = membroService.saveFicha(id, ficha, sessao);
+
+		if (membro != null) {
+			result.addSuccessMessage(getMessage("sucesso.save", new String[] { "membro", "" }));
 			result.setData(membro);
 		} else {
 			returnStatus = HttpStatus.NO_CONTENT;

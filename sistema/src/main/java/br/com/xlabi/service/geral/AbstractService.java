@@ -328,5 +328,14 @@ public abstract class AbstractService<PK extends Serializable, T> {
 
 		return null;
 	}
+	
+	public SimpleExpression retrictionMembro(String campo, AbstractEntity a) {
+		
+		 if (a != null) {
+			 return Restrictions.eq(campo, a.getId());
+		 }
+
+		return null;
+	}
 
 }
