@@ -1,13 +1,20 @@
 
 package br.com.xlabi.controller;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.IOUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import br.com.xlabi.controller.geral.AbstractController;
 import br.com.xlabi.entity.Membro;
 import br.com.xlabi.entity.geral.Arquivo;
+import br.com.xlabi.form.FormRelatorio;
 import br.com.xlabi.result.PaginateForm;
 import br.com.xlabi.result.Result;
 import br.com.xlabi.result.SessaoUser;
@@ -32,6 +40,7 @@ import br.com.xlabi.service.CargoService;
 import br.com.xlabi.service.CidadeService;
 import br.com.xlabi.service.EstadoService;
 import br.com.xlabi.service.MembroService;
+import br.com.xlabi.service.geral.RequestHttpSevice;
 
 @Controller
 
@@ -52,6 +61,11 @@ public class MembroController extends AbstractController {
 	
 	@Autowired
 	CargoService cargoServ;
+	
+	@Autowired
+	RequestHttpSevice requestHttp;
+	
+	
 	
 	@RequestMapping(value = "/membro/upload", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<Result> uploadFile(HttpServletRequest request,
@@ -204,7 +218,7 @@ public class MembroController extends AbstractController {
 		return new ResponseEntity<Result>(result, returnStatus);
 	}
 	
-	@RequestMapping(value = { "/membro/getImagem/{id}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/membro/getImagem/{id}","/api/membro/getImagem/{id}" }, method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<String> getImagem(@PathVariable("id") String id, HttpServletRequest request) {
 
 		HttpStatus returnStatus = HttpStatus.OK;
@@ -219,6 +233,7 @@ public class MembroController extends AbstractController {
 
 		return new ResponseEntity<String>(imagem, returnStatus);
 	}
+	
 	
 	@RequestMapping(value = { "/membro/saveFicha/{id}/{ficha}" }, method = RequestMethod.GET, consumes = "application/json")
 	public @ResponseBody ResponseEntity<Result> saveFicha(@PathVariable("id") String id, @PathVariable("ficha") String ficha, HttpServletRequest request) {
@@ -291,5 +306,71 @@ public class MembroController extends AbstractController {
 			}
 		}
 	}
+	
+	/**/
+	
+	@RequestMapping(value = { "/membro/imprimir", "/api/membro/imprimir" }, method = RequestMethod.POST )
+	public @ResponseBody ResponseEntity<byte[]> print(@RequestParam("dados") String form, HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		Result result = new Result();
+		HttpStatus returnStatus = HttpStatus.OK;
+		SessaoUser sessao = this.verificaSessao(request);
+		if (super.acceptRequest(sessao, null) != null) {
+			super.acceptRequest(sessao, null);
+			return null;
+		}
+		
+		PaginateForm pages = new PaginateForm();
+		
+		//System.out.println("FILTROSSSSSSSSSSSSSSSSSSSSSSSSSSS " + form);
+		
+		try {
+			JSONObject formjson = new JSONObject(form);
+			String aniversario = formjson.getString("aniversario");
+			String cargo = formjson.getString("cargo");
+			String ficha = formjson.getString("ficha");
+			
+			if(aniversario != null && !aniversario.equals("")) {
+				pages.getCampos().add("aniversario");
+				pages.getValues().add(aniversario);
+			}
+			
+			if(cargo != null && !cargo.equals("")) {
+				pages.getCampos().add("cargo");
+				pages.getValues().add(cargo);
+			}
+			
+			if(ficha != null && !ficha.equals("")) {
+				pages.getCampos().add("ficha");
+				pages.getValues().add(ficha);
+			}
+			
+		} catch (JSONException e) {
+			
+		}
+
+		result = membroService.list(pages, sessao);
+
+		byte[] x = null;
+		String json = objectToJson(result.getList());
+		
+		//System.out.println("JSONNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN " + json);
+		if (result.getList() != null) {
+			String retorno = requestHttp.postRequest("http://moderna.xlabi.com.br/relatorio/relatoriocatedral.php", json);
+			
+			//System.out.println("RETORNOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO " + retorno);
+
+			x = returnFile("http://moderna.xlabi.com.br/relatorio/relatoriocatedral.pdf", "application/pdf", "relatoriocatedral.pdf", response);
+
+		} else {
+			returnStatus = HttpStatus.NO_CONTENT;
+			result.addError("get", "Erro");
+		}
+		
+		return new ResponseEntity<byte[]>(x, returnStatus);
+	}
+	
+	
 
 }

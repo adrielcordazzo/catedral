@@ -20,12 +20,19 @@
 		MembroListController.prototype.termineteLoadList = function(data){
 			var self = this;
 			
+			
+
 			$("[data-action='uploadMembros']",this.divLoad).click(function(){
 		        self.uploadMembros();
 		    });
 			
 			$("tbody",this.divLoad).html("");
 			if(data.list){
+
+				$("[data-action='imprimir']",this.divLoad).click(function(){
+			        self.imprimir(data.list);
+			    });
+
 				var list = data.list;
 				$(".totalregistros",this.divLoad).text(data.countResult);
 				for(var i in list){
@@ -97,6 +104,50 @@
 
 		MembroListController.prototype.retornaSaveFicha = function(){
 			this.closeLoad();
+		}
+
+		MembroListController.prototype.imprimir = function(data){
+			/*var aniversario = $("[name='aniversario']",this.divLoad).val();
+		    var cargo = $("[name='cargo']",this.divLoad).val();
+		    var ficha = $("[name='ficha']",this.divLoad).val();
+			//window.open('membro/imprimir','_blank');	
+			var data = {"dados":{"aniversario":aniversario,"cargo":cargo,"ficha":ficha}};
+			data = JSON.stringify({"dados":{"aniversario":aniversario,"cargo":cargo,"ficha":ficha}});
+			//var oi = JSON.parse(data)
+			$.post("membro/imprimir", data, function () {
+			    var w = window.open('about:blank');
+			    w.document.open();
+			    //w.document.write(data);
+			    //w.document.close();
+			});*/
+
+			var aniversario = $("[name='aniversario']",this.divLoad).val();
+			var cargo = $("[name='cargo']",this.divLoad).val();
+		    var ficha = $("[name='ficha']",this.divLoad).val();
+			var data = {"aniversario":aniversario,"cargo":cargo,"ficha":ficha};
+
+
+			var form = $("<form/>");
+			form.attr("id","formImprimir");
+			form.attr("method","POST");
+			form.attr("target","_blank");
+			form.append("<input />");
+			form.find("input").attr("name","dados");
+			form.find("input").attr("value",JSON.stringify(data));
+			//form.attr('action','http://moderna.xlabi.com.br/relatorio/relatoriocatedral.php');
+			form.attr('action','membro/imprimir');
+			form.attr("onsubmit","");
+			$("body").append(form);
+			form.submit();
+			$("body").remove(form);
+
+			/*$('#json','#formRelatorio').val(JSON.stringify(data));
+		
+			$('#formRelatorio').attr('action','http://www.xlabi.com.br/cinex/relatorio.php');
+			$('#formRelatorio').attr('onsubmit','');
+			$('#formRelatorio').submit();*/
+
+
 		}
 
 		MembroListController.prototype.aplicaFiltro = function(){
