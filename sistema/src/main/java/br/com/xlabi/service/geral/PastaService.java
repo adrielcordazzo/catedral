@@ -20,7 +20,7 @@ import br.com.xlabi.result.SessaoUser;
 @Transactional
 public class PastaService extends AbstractService<String, Pasta> {
 
-	public static final String CAMINHO = "/var/www/html/APPLICATIONFILES/imogle/";
+	public static final String CAMINHO = "/var/www/html/APPLICATIONFILES/catedral/";
 	// public static final String CAMINHO = "C:/Xlabi/clinarquivos/";
 
 	public String getCaminho(SessaoUser sessao) {

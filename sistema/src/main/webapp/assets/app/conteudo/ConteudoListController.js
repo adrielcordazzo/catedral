@@ -16,7 +16,26 @@
 		ConteudoListController.prototype.urlDelete = "conteudo/";
 		ConteudoListController.prototype.urlDeleteAll = "conteudo/deleteAll/";
 
+		ConteudoListController.prototype.uploadProdutos = function(data) {
+			var self = this;
+			var modal = app.getObject('Modal');
+			// var m = new modal(data);
+			modal.newInstance('conteudo/OrdemUpload', data, function() {
+				if (data.valid) {
+					for ( var i in data.list) {
+						var dado = data.list[i];
+						$("#log", self.divLoad).append(dado + "<br>");
+					}
+				}
+				self.loadPage();
+			});
+
+		}
+
 		ConteudoListController.prototype.termineteLoadList = function(data){
+
+			$("[data-action='upload']", this.divLoad).click(this.uploadProdutos.bind(this));
+
 			this.detectselect();
 
 			$("tbody",this.divLoad).html("");

@@ -57,6 +57,15 @@ public class ConteudoService extends AbstractService<String, Conteudo> {
 		}
 		return false;
 	}
+	
+	public Conteudo externalid(String id, SessaoUser sessao) {
+		SimpleExpression restricao = Restrictions.eq("externalid", id);
+		SimpleExpression ruser = retriction("usuario.id", null, sessao);
+		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
+		Conteudo temp = super.get(restricao, ruser, rcontratante);
+		inicialize(temp);
+		return temp;
+	}
 
 	public Integer count(SessaoUser sessao) {
 		SimpleExpression restricao = null;
@@ -107,7 +116,7 @@ public class ConteudoService extends AbstractService<String, Conteudo> {
 		SimpleExpression restricao = null;
 		SimpleExpression ruser = retriction("usuario.id", sessao.getUsuario());
 		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
-		Result result = super.listRestriction(pages, "externalid", "externalid", restricao, ruser, rcontratante);
+		Result result = super.listRestriction(pages, "criado", "titulo", restricao, ruser, rcontratante);
 		inicializeList(result.getList());
 		return result;
 	}

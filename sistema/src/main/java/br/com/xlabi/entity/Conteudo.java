@@ -56,6 +56,9 @@ public class Conteudo extends AbstractEntity {
 	@Size(max = 255, message = "O campo deve ter no máximo 255 caracteres")
 	private String subtitulo;
 	
+	@Column(name = "youtube")
+	private String youtube;
+	
 	@Column(name = "conteudo")
 	@Type(type = "text")
 	private String conteudo;
@@ -128,6 +131,14 @@ public class Conteudo extends AbstractEntity {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getYoutube() {
+		return youtube;
+	}
+
+	public void setYoutube(String youtube) {
+		this.youtube = youtube;
 	}
 
 	public String getTitulo() {

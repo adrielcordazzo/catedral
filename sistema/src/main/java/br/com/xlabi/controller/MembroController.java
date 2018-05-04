@@ -2,6 +2,7 @@
 package br.com.xlabi.controller;
 
 import java.io.InputStream;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,6 +42,11 @@ import br.com.xlabi.service.CidadeService;
 import br.com.xlabi.service.EstadoService;
 import br.com.xlabi.service.MembroService;
 import br.com.xlabi.service.geral.RequestHttpSevice;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
+import sun.misc.BASE64Decoder;
 
 @Controller
 
@@ -219,19 +225,78 @@ public class MembroController extends AbstractController {
 	}
 	
 	@RequestMapping(value = { "/membro/getImagem/{id}","/api/membro/getImagem/{id}" }, method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<String> getImagem(@PathVariable("id") String id, HttpServletRequest request) {
+	public @ResponseBody byte[] getImagem(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		HttpStatus returnStatus = HttpStatus.OK;
 		SessaoUser sessao = this.verificaSessao(request);
 
 		Membro membro = membroService.get(id, sessao);
 		
+		byte[] imageBytes = null;
+		
 		String imagem = membro.getImagemmembro();
 		if(imagem == null) {
 			imagem = "http://moderna.xlabi.com.br/relatorio/img/semfoto.png";
+			try {
+				imageBytes = recuperarFileUrl(imagem, response);
+			} catch (Exception e) {
+
+			}
+		}else {
+			String base64Image = imagem.split(",")[1];
+			imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
+			
+			Arquivo arq = new Arquivo();
+			arq.setNome("foto.png");
+			arq.setTipo("image/png");
+			
+			// set headers for the response
+			String headerKey = "Content-Disposition";
+			String headerValue = String.format("attachment; filename=\"%s\"", arq.getNome());
+			response.setHeader(headerKey, headerValue);
+
+			// para funcionar o play do video
+			response.addHeader("Content-Range", "bytes " + 0 + "-" + imageBytes.length + "/" + imageBytes.length);
+			response.addHeader("Accept-Ranges", "bytes");
+			response.addHeader("Connection", "Keep-Alive");
+			response.addHeader("Keep-Alive", "timeout=5, max=98");
+
+			response.setContentLength(imageBytes.length);
+			response.setContentType(arq.getTipo());
+			response.flushBuffer();
 		}
 
-		return new ResponseEntity<String>(imagem, returnStatus);
+		return imageBytes;
+	}
+	
+	public byte[] recuperarFileUrl(String url, HttpServletResponse response) throws Exception {
+		InputStream input = new URL(url).openStream();
+		return recuperarFileInputStream(input, response, null);
+	}
+	
+	public byte[] recuperarFileInputStream(InputStream input, HttpServletResponse response, Arquivo arq)
+			throws Exception {
+		if (arq == null) {
+			arq = new Arquivo();
+			arq.setNome("foto.png");
+			arq.setTipo("image/png");
+		}
+		byte[] bytes = IOUtils.toByteArray(input);
+		// set headers for the response
+		String headerKey = "Content-Disposition";
+		String headerValue = String.format("attachment; filename=\"%s\"", arq.getNome());
+		response.setHeader(headerKey, headerValue);
+
+		// para funcionar o play do video
+		response.addHeader("Content-Range", "bytes " + 0 + "-" + bytes.length + "/" + bytes.length);
+		response.addHeader("Accept-Ranges", "bytes");
+		response.addHeader("Connection", "Keep-Alive");
+		response.addHeader("Keep-Alive", "timeout=5, max=98");
+
+		response.setContentLength(bytes.length);
+		response.setContentType(arq.getTipo());
+		response.flushBuffer();
+		return bytes;
 	}
 	
 	
@@ -322,8 +387,6 @@ public class MembroController extends AbstractController {
 		}
 		
 		PaginateForm pages = new PaginateForm();
-		
-		//System.out.println("FILTROSSSSSSSSSSSSSSSSSSSSSSSSSSS " + form);
 		
 		try {
 			JSONObject formjson = new JSONObject(form);

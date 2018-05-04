@@ -32,7 +32,7 @@ import br.com.xlabi.service.ConteudocategoriaService;
 public class CategoriaController extends AbstractController {
 
 	@Autowired
-				ConteudocategoriaService conteudocategoriaServ;
+	ConteudocategoriaService conteudocategoriaServ;
 
 	@Autowired
 	private CategoriaService categoriaService;
@@ -73,7 +73,7 @@ public class CategoriaController extends AbstractController {
 		HashMap<String, Object> dados = new HashMap<String, Object>();
 
 		dados.put("modelo", new Categoria());
-		
+
 		result.setData(dados);
 		return new ResponseEntity<Result>(result, returnStatus);
 	}
@@ -104,8 +104,7 @@ public class CategoriaController extends AbstractController {
 		return new ResponseEntity<Result>(result, returnStatus);
 	}
 
-	@RequestMapping(value = {
-			"/categoria/deleteAll" }, method = RequestMethod.DELETE, consumes = "application/json")
+	@RequestMapping(value = { "/categoria/deleteAll" }, method = RequestMethod.DELETE, consumes = "application/json")
 	public @ResponseBody ResponseEntity<Result> deleteAll(@RequestBody String[] ids, HttpServletRequest request,
 			BindingResult bindingResult) {
 

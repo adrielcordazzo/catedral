@@ -8,6 +8,7 @@
         <div class="col-sm-12 ">
           <h1 class="m-n font-thin h3 text-black pull-left">Conteúdo</h1>
           <a data-action="inserir" class="btn btn-primary pull-right">Inserir</a>
+          <a data-action="upload" class="btn btn-primary pull-right">Upload</a>
         </div>
       </div> 
     </div>  
