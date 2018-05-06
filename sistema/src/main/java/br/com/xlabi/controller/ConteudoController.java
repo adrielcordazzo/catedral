@@ -194,7 +194,7 @@ public class ConteudoController extends AbstractController {
 					i.setTitulo(j.get("titulo").asText());
 					i.setConteudo(j.get("descricao").asText());
 					i.setYoutube(j.get("youtube").asText());
-
+					i.setPrioridade(j.get("id").asInt());
 					i.setExternalid(j.get("id").asText());
 					
 					Conteudotipo ct = conteudotipoServ.get("40288a826328e88a016328e92bc90000", sessao);

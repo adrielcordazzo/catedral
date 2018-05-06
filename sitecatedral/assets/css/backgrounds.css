@@ -1,0 +1,89 @@
+/** BACKGROUNDS.CSS
+=====================================================================================
+This is backgrounds CSS file that contains backgrounds rules in this template
+=====================================================================================
+Template Name: Hope - Church Responsive HTML5 Template
+Template URL: http://church.pistaciatheme.com
+Description: Flat church and congregation HTML5 template
+Author: Pistaciatheme
+Support: http://themeforest.net/user/pistaciatheme
+Version: 1.1
+=====================================================================================*/
+/** ===[ table of content ]===
+
+1. Backgrounds
+---- donateSection
+---- dark#upcomingEventSection
+---- celebrateSection
+---- worship-top
+---- pastorQuotes
+---- aboutQuotes
+---- parallax-section
+---- subscribeNewsletter
+---- timeline-section
+---- errorPageSection
+---- title-picture-section
+---- loginSection
+---- footerSection
+---- cross-carry
+
+*/
+
+/** ===[ 1 Backgrounds ]===
+=====================================================================================================================
+===================================================================================================================== */
+#donateSection .inner{
+    background-image: url('../img/content/img19.jpg');
+}
+
+.dark#upcomingEventSection {
+    background-image: url('../img/content/img12.jpg');
+}
+
+#celebrateSection {
+    background: url('../img/patterns/diamond-bg.jpg') top center;
+}
+
+.worship-top {
+    background: url('../img/content/img8.jpg') center center;
+}
+
+#pastorQuotes {
+    background: url('../img/content/img19.jpg');
+}
+
+#aboutQuotes {
+    background: url('../img/content/img14.jpg') left center no-repeat;
+}
+
+.parallax-section {
+    background-image: url('../img/content/img16.jpg');
+}
+
+#subscribeNewsletter {
+    background-image: url('../img/content/img4.jpg');
+}
+
+.timeline-section {
+    background: url('../img/patterns/diamond-bg.jpg') top center no-repeat #ffffff;
+}
+
+#errorPageSection {
+    background-image: url('../img/content/img20.jpg');
+}
+
+.title-picture-section {
+    background: url('../img/content/img19.jpg') center center;
+}
+
+#loginSection {
+    background-image: url('../img/patterns/diamond-bg.jpg');
+}
+
+#footerSection .content {
+    background: url('../img/patterns/diamond-bg.jpg') top center;
+}
+
+.cross-carry {
+    background: url('../img/elements/cross-carry.png') no-repeat;
+}

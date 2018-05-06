@@ -80,6 +80,9 @@ public class Conteudo extends AbstractEntity {
 	@JsonSerialize(using = JsonDateSerializer.class)
 	private Date atualizado;
 	
+	@Column(name = "prioridade")
+	private Integer prioridade;
+	
 	@Column(name = "inativo")
 	private Integer inativo;
 	
@@ -115,6 +118,14 @@ public class Conteudo extends AbstractEntity {
 
 	public void setCategorias(List<Categoria> categorias) {
 		this.categorias = categorias;
+	}
+
+	public Integer getPrioridade() {
+		return prioridade;
+	}
+
+	public void setPrioridade(Integer prioridade) {
+		this.prioridade = prioridade;
 	}
 
 	public String getSubtitulo() {

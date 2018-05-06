@@ -40,6 +40,7 @@ define(['util/AbstractForm'],function (AbstractForm) {
 
 		formData.append('file',file);
 		var self = this;
+		this.urlAction = $('#url').val();
 		if(this.urlAction!=null){
 			// this.post(this.urlAction,formData,this.success.bind(this),this.error.bind(this),Metronic.unblockUI.bind(this,this.form));
 			var request = new XMLHttpRequest();

@@ -22,11 +22,15 @@
       </div>
       
       <div class="row">
-        <div class="col-sm-6 form-group">
+        <div class="col-sm-4 form-group">
+          <label>Prioridade:</label> 
+          <input class="form-control " data-type="number" placeholder="Prioridade"  type="text" rv-value="prioridade" name="prioridade">
+        </div>
+        <div class="col-sm-4 form-group">
           <label>URL:</label> 
           <input class="form-control " data-type="varchar" placeholder="Url"  type="text" rv-value="url" name="url">
         </div>
-        <div class="col-sm-6 form-group">
+        <div class="col-sm-4 form-group">
           <label class="control-label">Conteúdo Tipo: </label>
           <select name="conteudotipo"  id="conteudotipo" class="form-control" 
           data-select="conteudotipo/listAll" 
