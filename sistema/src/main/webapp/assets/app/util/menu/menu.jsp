@@ -40,6 +40,24 @@
 	</li>
 	</sec:authorize>
 
+	<sec:authorize access="hasAnyAuthority('CONTATO','ADMINXLABI')">
+	<li>
+		<a href="#/contato">
+			<i class="fa fa-folder"></i>
+			<span>Contatos</span> 
+		</a>
+	</li>
+	</sec:authorize>
+
+	<sec:authorize access="hasAnyAuthority('EVENTO','ADMINXLABI')">
+	<li>
+		<a href="#/evento">
+			<i class="fa fa-calendar"></i>
+			<span>Eventos</span> 
+		</a>
+	</li>
+	</sec:authorize>
+
 	
 	
 	<sec:authorize access="hasAnyAuthority('ADMINXLABI')">

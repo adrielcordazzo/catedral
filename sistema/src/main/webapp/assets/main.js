@@ -87,7 +87,17 @@ importar(['util/Abstract','util/Application','router'] ,function (ABSTRACT,APLIC
                 estado1: { path: '/estado/add', moduleId: 'estado/EstadoEditDataController' },
                 estado2: { path: '/estado/edit/:id', moduleId: 'estado/EstadoEditDataController' },
 
+                contato: { path: '/contato', moduleId: 'contato/ContatoListController' },
+                contato1: { path: '/contato/add', moduleId: 'contato/ContatoEditDataController' },
+                contato2: { path: '/contato/edit/:id', moduleId: 'contato/ContatoEditDataController' },
 
+                contatotipo1: { path: '/contatotipo', moduleId: 'contatotipo/ContatotipoListController' },
+                contatotipo2: { path: '/contatotipo/add', moduleId: 'contatotipo/ContatotipoEditDataController' },
+                contatotipo3: { path: '/contatotipo/edit/:id', moduleId: 'contatotipo/ContatotipoEditDataController' },
+
+                evento: { path: '/evento', moduleId: 'evento/EventoListController' },
+                evento1: { path: '/evento/add', moduleId: 'evento/EventoEditDataController' },
+                evento2: { path: '/evento/edit/:id', moduleId: 'evento/EventoEditDataController' },
                 
                 
                 // homeEdit: { path: '/home/:brasil', moduleId: 'user/user' },

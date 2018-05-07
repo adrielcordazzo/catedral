@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.xlabi.entity.Categoria;
-import br.com.xlabi.entity.Conteudo;
+import br.com.xlabi.entity.Evento;
+import br.com.xlabi.entity.Eventomembro;
+import br.com.xlabi.entity.Membro;
 import br.com.xlabi.entity.geral.Pasta;
 import br.com.xlabi.result.PaginateForm;
 import br.com.xlabi.result.Result;
@@ -22,23 +24,24 @@ import br.com.xlabi.service.geral.PastaService;
 
 @Service
 @Transactional
-public class ConteudoService extends AbstractService<String, Conteudo> {
+public class EventoService extends AbstractService<String, Evento> {
+	
 	@Autowired
 	PastaService pastaServ;
 
-	public Conteudo save(Conteudo conteudo, SessaoUser sessao) {
+	public Evento save(Evento evento, SessaoUser sessao) {
 		
-		if (conteudo.getId() == null) {
+		if (evento.getId() == null) {
 			Pasta p = new Pasta();
 			p.setPasta("Template");
 			pastaServ.save(p, sessao);
-			conteudo.setPasta(p);
+			evento.setPasta(p);
 		}
 
-		setReferencias(conteudo, sessao);
+		setReferencias(evento, sessao);
 		try {
-			super.save(conteudo);
-			return conteudo;
+			super.save(evento);
+			return evento;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -47,24 +50,15 @@ public class ConteudoService extends AbstractService<String, Conteudo> {
 
 	public boolean delete(String id, SessaoUser sessao) {
 		try {
-			Conteudo conteudo = get(id, sessao);
-			if (conteudo != null) {
-				super.delete(conteudo);
+			Evento evento = get(id, sessao);
+			if (evento != null) {
+				super.delete(evento);
 				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
-	}
-	
-	public Conteudo externalid(String id, SessaoUser sessao) {
-		SimpleExpression restricao = Restrictions.eq("externalid", id);
-		SimpleExpression ruser = retriction("usuario.id", null, sessao);
-		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
-		Conteudo temp = super.get(restricao, ruser, rcontratante);
-		inicialize(temp);
-		return temp;
 	}
 
 	public Integer count(SessaoUser sessao) {
@@ -74,35 +68,13 @@ public class ConteudoService extends AbstractService<String, Conteudo> {
 		return super.count(restricao, ruser, rcontratante);
 	}
 
-	public Conteudo get(String id, SessaoUser sessao) {
+	public Evento get(String id, SessaoUser sessao) {
 		SimpleExpression restricao = Restrictions.eq("id", id);
 		SimpleExpression ruser = retriction("usuario.id", null, sessao);
 		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
-		Conteudo temp = super.get(restricao, ruser, rcontratante);
+		Evento temp = super.get(restricao, ruser, rcontratante);
 		inicialize(temp);
 		return temp;
-	}
-	
-	public Conteudo getPorUrl(String url, SessaoUser sessao) {
-		SimpleExpression restricao = Restrictions.eq("url", url);
-		SimpleExpression ruser = null;//retriction("usuario.id", null, sessao);
-		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
-		Conteudo temp = super.get(restricao, ruser, rcontratante);
-		inicialize(temp);
-		return temp;
-	}
-	
-	public Result listUrl(String url, SessaoUser sessao) {
-		SimpleExpression restricao = null;
-		SimpleExpression ruser = retriction("usuario.id", sessao.getUsuario());
-		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
-		SimpleExpression rurl = Restrictions.eq("url", url);
-		PaginateForm pages = new PaginateForm();
-		pages.setOrder(1);
-		pages.setOrdercampo("titulo");
-		Result result = super.listRestriction(pages, "titulo", "titulo", restricao, ruser, rcontratante, rurl);
-		inicializeList(result.getList());
-		return result;
 	}
 
 	public Integer CountFk(String campo, String value, SessaoUser sessao) {
@@ -116,17 +88,16 @@ public class ConteudoService extends AbstractService<String, Conteudo> {
 		SimpleExpression restricao = null;
 		SimpleExpression ruser = retriction("usuario.id", sessao.getUsuario());
 		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
-		pages.setOrder(1);
-		Result result = super.listRestriction(pages, "prioridade", "titulo", restricao, ruser, rcontratante);
+		Result result = super.listRestriction(pages, "data", "titulo", restricao, ruser, rcontratante);
 		inicializeList(result.getList());
 		return result;
 	}
 
-	public List<Conteudo> listAllEntity(SessaoUser sessao) {
+	public List<Evento> listAllEntity(SessaoUser sessao) {
 		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
 		Result result = super.listAllRestricao(rcontratante);
 		inicializeList(result.getList());
-		return (List<Conteudo>) result.getList();
+		return (List<Evento>) result.getList();
 	}
 
 	public Result listAll(SessaoUser sessao) {
@@ -136,12 +107,12 @@ public class ConteudoService extends AbstractService<String, Conteudo> {
 		return result;
 	}
 
-	public void inicialize(Conteudo conteudo) {
-		if (conteudo != null) {
-			conteudo.getCriado();
-			if(conteudo.getCategorias() != null){
-				for(Categoria c : conteudo.getCategorias()){
-					c.getId();
+	public void inicialize(Evento evento) {
+		if (evento != null) {
+			evento.getId();
+			if(evento.getMembros() != null) {
+				for(Eventomembro m : evento.getMembros()) {
+					m.getId();
 				}
 			}
 		}
@@ -150,42 +121,30 @@ public class ConteudoService extends AbstractService<String, Conteudo> {
 	public void inicializeList(List<?> list) {
 		if (list != null) {
 			for (Object p : list) {
-				inicialize((Conteudo) p);
+				inicialize((Evento) p);
 			}
 		}
 	}
 
-	public Conteudo synchronizeAndSave(Conteudo p, Conteudo vs) {
+	public Evento synchronizeAndSave(Evento p, Evento vs) {
 
 		super.save(p);
 		return p;
 	}
 
-	public Conteudo setReferencias(Conteudo p, SessaoUser sessao) {
+	public Evento setReferencias(Evento p, SessaoUser sessao) {
+		
 		p.setContratante(sessao.getContratante());
 		p.setUsuario(sessao.getUsuario());
-		if (p.getInativo() == null)
-			p.setInativo(0);
 
-		p.setCriado(new Date());
-		p.setAtualizado(new Date());
-		if (p.getExcluido() == null)
-			p.setExcluido(0);
-		
-		if(p.getCategorias() != null){
-			for(Categoria a : p.getCategorias()){
-				//a.setContratante(sessao.getContratante());
+		if(p.getMembros() != null){
+			for(Eventomembro a : p.getMembros()){
+				a.setContratante(sessao.getContratante());
 				a.setUsuario(sessao.getUsuario());
-				if (a.getInativo() == null)
-					a.setInativo(0);
-
-				a.setCriado(new Date());
-				a.setAtualizado(new Date());
-				if (a.getExcluido() == null)
-					a.setExcluido(0);
+				a.setEvento(p);
 			}
 		}
-
+		
 		return p;
 	}
 
