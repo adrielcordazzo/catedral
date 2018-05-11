@@ -11178,7 +11178,7 @@ ul.comment-list li.item ul.replied li {
     top : 15px;
     left : 0;
     width : 35px;
-    height : 50px;
+    height : 60px;
     padding-top : 10px;
     text-align : center;
     color : #fff;
@@ -11196,7 +11196,7 @@ ul.comment-list li.item ul.replied li {
 }
 .blog-item .info .format {
     position : absolute;
-    top : 65px;
+    top : 75px;
     left : 0;
     width : 35px;
     height : 50px;
@@ -11561,7 +11561,7 @@ ul.comment-list li.item ul.replied li {
 .gallery-section {
     padding-top : 40px;
     padding-bottom : 60px;
-    background : #efefef;
+    /*background : #efefef;*/
 }
 .gallery-section .btn-toolbar {
     margin-bottom : 40px;
@@ -14790,7 +14790,7 @@ ul.list-tabs li a:hover {
 
 /** ===[ Gallery section ]=== */
 .gallery-section {
-    background : #fff;
+    /*background : #fff;*/
 }
 
 @media only screen and (min-width: 64.0625em) {

@@ -28,7 +28,9 @@
           this.closeLoad();
 
           if(this.dado && this.dado.id && this.dado.membros){
-            this.membros = this.dado.membros;
+            for(var i in this.dado.membros){
+              this.buscamembroLista(this.dado.membros[i].id);
+            }
           }
         }
 
@@ -41,14 +43,13 @@
             this.buscamembroLista(idmembro);
         }
 
-        EventoEditDataController.prototype.buscamembroLista = function(idmembro, valor){
+        EventoEditDataController.prototype.buscamembroLista = function(idmembro){
             if(!idmembro)
                 return;
-
-            this.get("membro/"+idmembro,null,this.addmembroLista.bind(this, valor,1),null,null);
+            this.get("membro/"+idmembro,null,this.addmembroLista.bind(this),null,null);
         }
 
-        EventoEditDataController.prototype.addmembroLista = function(valor, quantidade, data,ordem){
+        EventoEditDataController.prototype.addmembroLista = function(data){
             var element = $(this.cloneListaMembro).clone();
             var dado = data.data;
             
@@ -58,8 +59,7 @@
             $(".m-rg",element).html(dado.rg);  
             $(".m-cpf",element).html(dado.cpf);  
 
-            
-            var json = {id:dado.id};
+            var json = {membro:{id:dado.id}};
             
             this.membros.push(json);
 

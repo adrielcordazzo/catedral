@@ -1,6 +1,7 @@
 
 package br.com.xlabi.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,8 +11,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -75,10 +78,8 @@ public class Evento extends AbstractEntity {
 	@JsonIgnore
 	private Usuario usuario;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "eventomembro", joinColumns = { @JoinColumn(name = "evento_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "membro_id") })
-	private List<Eventomembro> membros;
+	@OneToMany(mappedBy = "evento", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	private List<Eventomembro> membros = new ArrayList<Eventomembro>();
 
 	public String getId() {
 		return id;

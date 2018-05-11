@@ -17,14 +17,14 @@ $qtasPaginas = ceil($total/$itens);
 $html = '';
 foreach($blogs->list as $blog){
     
-    $img = URLSITE . 'imagem.php?id=' . $blog->pasta->id. '&a=pasta&altura=400&largura=400';
+    $img = URLSITE . 'imagem.php?id=' . $blog->pasta->id. '&a=ps&altura=600&largura=600';
 
     
     $html .= '<div class="row item">
-                <div class="columns medium-4 photo">
+                <div class="columns medium-3 photo">
                     <img src="' . $img . '" alt="">
                 </div>
-                <div class="columns medium-8 info">
+                <div class="columns medium-9 info">
                     <h5><a class="font-lora" href="' . URLSITE . 'artigo/' . $blog->id . '">' . $blog->titulo . '</a></h5>
                     <div class="date-place">
                         <span><i class="fa fa-calendar"></i> ' . $blog->criado . '</span>
@@ -58,7 +58,19 @@ if($pagina >= 1){
 
     <?php include_once 'inc/menu.php'; ?>
 
-    <?php include_once 'inc/banner.php'; ?>
+    <section class="dark-line-section">
+        <div class="inner">
+            <div class="row">
+                <div class="small-12 columns">
+                    <h1 class="title">Artigos</h1>
+                    <nav class="breadcrumbs">
+                        <a href="<?php echo URLSITE; ?>home">Home</a>
+                        <a class="current" href="<?php echo URLSITE; ?>artigos">Artigos</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <div class="events-section" id="eventsSection">
         <div class="inner">

@@ -59,10 +59,12 @@ public class Eventomembro extends AbstractEntity {
 	
 	@ManyToOne()
 	@JoinColumn(name = "evento_id")
+	@JsonIgnore
 	private Evento evento;
 	
 	@ManyToOne()
 	@JoinColumn(name = "membro_id")
+	@JsonIgnore
 	private Membro membro;
 
 	

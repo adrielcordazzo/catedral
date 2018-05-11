@@ -1,4 +1,3 @@
-
 package br.com.xlabi.controller.geral;
 
 import java.awt.Color;
@@ -375,15 +374,17 @@ public class ArquivoController extends AbstractController {
 			File file = new File(
 					pastaServ.getCaminho(arq.getContratante()) + arq.getPasta().getId() + "/" + arq.getNome());
 			FileInputStream input = new FileInputStream(file);
-			
-			if(arq.getExtensao().toUpperCase().equals("JPG") || arq.getExtensao().toUpperCase().equals("JPEG") || arq.getExtensao().toUpperCase().equals("PNG") || arq.getExtensao().toUpperCase().equals("GIF")) {
+
+			if (arq.getExtensao().toUpperCase().equals("JPG") || arq.getExtensao().toUpperCase().equals("JPEG")
+					|| arq.getExtensao().toUpperCase().equals("PNG") || arq.getExtensao().toUpperCase().equals("GIF")) {
 
 				BufferedImage image = ImageIO.read(input);
-				Builder<BufferedImage> thumbnail = Thumbnails.of(image).size(800, 600);
-	
+
+				Builder<BufferedImage> thumbnail = resizeTumb(image, 800, 600);
+
 				bytes = recuperarFileBufferedImage(thumbnail, arq, response);
-			}else {
-				bytes = recuperarFileInputStream(input,response, arq);
+			} else {
+				bytes = recuperarFileInputStream(input, response, arq);
 			}
 
 		} else {
@@ -414,21 +415,19 @@ public class ArquivoController extends AbstractController {
 
 			int rsiw = 600;
 			int rsih = 600;
-			if (image.getWidth() < rsiw) {
+
+			if (image.getWidth() < image.getHeight()) {
 				rsiw = image.getWidth();
 				rsih = image.getWidth();
-			}
-
-			if (image.getHeight() < rsih) {
+			} else {
 				rsiw = image.getHeight();
 				rsih = image.getHeight();
 			}
 
 			Builder<BufferedImage> thumbnail = Thumbnails.of(image).sourceRegion(Positions.CENTER, rsiw, rsih)
-					.size(largura, alutra);
+					.size(largura, alutra).outputQuality(0.6);
 
-			aplicaMarcaDagua(thumbnail, arq, arq.getContratante().getMarcadagua(),
-					thumbnail.asBufferedImage().getWidth() / 3, thumbnail.asBufferedImage().getHeight() / 3);
+			//aplicaMarcaDagua(thumbnail, arq, arq.getContratante().getMarcadagua(), thumbnail.asBufferedImage().getWidth(), thumbnail.asBufferedImage().getHeight());
 
 			thumbnail.addFilter(new Canvas(largura, alutra, Positions.CENTER, Color.WHITE));
 
@@ -454,7 +453,7 @@ public class ArquivoController extends AbstractController {
 			}
 
 			Builder<BufferedImage> thumbnail = Thumbnails.of(image).sourceRegion(Positions.CENTER, rsiw, rsih)
-					.size(largura, alutra);
+					.size(largura, alutra).outputQuality(0.6);
 
 			arq = new Arquivo();
 			arq.setContratante(p.getContratante());
@@ -484,7 +483,7 @@ public class ArquivoController extends AbstractController {
 					pastaServ.getCaminho(arq.getContratante()) + arq.getPasta().getId() + "/" + arq.getNome());
 			FileInputStream input = new FileInputStream(file);
 
-			BufferedImage image = ImageIO.read(input);
+			BufferedImage image = ImageIO.read(file);
 
 			int rsiw = 600;
 			int rsih = 600;
@@ -498,7 +497,7 @@ public class ArquivoController extends AbstractController {
 				rsih = image.getHeight();
 			}
 
-			Builder<BufferedImage> thumbnail = Thumbnails.of(image).size(largura, alutra);
+			Builder<BufferedImage> thumbnail = resizeTumb(image, largura, alutra);
 
 			bytes = recuperarFileBufferedImage(thumbnail, arq, response);
 
@@ -522,7 +521,7 @@ public class ArquivoController extends AbstractController {
 			}
 
 			Builder<BufferedImage> thumbnail = Thumbnails.of(image).sourceRegion(Positions.CENTER, rsiw, rsih)
-					.size(largura, alutra);
+					.size(largura, alutra).outputQuality(0.6);
 
 			arq = new Arquivo();
 			arq.setContratante(p.getContratante());
@@ -554,7 +553,8 @@ public class ArquivoController extends AbstractController {
 			FileInputStream input = new FileInputStream(file);
 
 			BufferedImage image = ImageIO.read(input);
-			Builder<BufferedImage> thumbnail = Thumbnails.of(image).size(800, 600);
+
+			Builder<BufferedImage> thumbnail = resizeTumb(image, 800, 600);
 
 			bytes = recuperarFileBufferedImage(thumbnail, arq, response);
 
@@ -582,7 +582,8 @@ public class ArquivoController extends AbstractController {
 			FileInputStream input = new FileInputStream(file);
 
 			BufferedImage image = ImageIO.read(input);
-			Builder<BufferedImage> thumbnail = Thumbnails.of(image).size(800, 600);
+
+			Builder<BufferedImage> thumbnail = resizeTumb(image, 800, 600);
 
 			bytes = recuperarFileBufferedImage(thumbnail, arq, response);
 
@@ -590,6 +591,10 @@ public class ArquivoController extends AbstractController {
 			bytes = recuperarFileUrl("http://moderna.xlabi.com.br/relatorio/img/semfoto.png", response);
 		}
 		return bytes;
+	}
+
+	public Builder<BufferedImage> resizeTumb(BufferedImage image, Integer la, Integer al) {
+		return Thumbnails.of(image).size(la, al);
 	}
 
 	@RequestMapping(value = { "/arquivo/getArquivo/{id}/{largura}/{alutra}",
@@ -607,9 +612,38 @@ public class ArquivoController extends AbstractController {
 					pastaServ.getCaminho(arq.getContratante()) + arq.getPasta().getId() + "/" + arq.getNome());
 			FileInputStream input = new FileInputStream(file);
 			BufferedImage image = ImageIO.read(input);
-			Builder<BufferedImage> thumbnail = Thumbnails.of(image).size(largura, altura);
+
+			Builder<BufferedImage> thumbnail = resizeTumb(image, largura, altura);
 
 			aplicaMarcaDagua(thumbnail, arq, arq.getContratante().getMarcadagua(), largura, altura);
+
+			thumbnail.addFilter(new Canvas(largura, altura, Positions.CENTER, Color.WHITE));
+
+			bytes = recuperarFileBufferedImage(thumbnail, arq, response);
+
+		} else {
+			bytes = recuperarFileUrl("http://moderna.xlabi.com.br/relatorio/img/semfoto.png", response);
+		}
+		return bytes;
+	}
+
+	@RequestMapping(value = { "/arquivo/getArquivoSemLogo/{id}/{largura}/{alutra}",
+			"/api/arquivo/getArquivoSemLogo/{id}/{largura}/{altura}" }, method = RequestMethod.GET)
+	@ResponseBody
+	public byte[] getArquivoSizeSemlogo(@PathVariable("id") String id, @PathVariable(value = "largura") Integer largura,
+			@PathVariable(value = "altura") Integer altura, HttpServletResponse response) throws Exception {
+		Arquivo arq = null;
+
+		arq = arquivoService.getArquivo(id);
+
+		byte[] bytes = null;
+		if (arq != null) {
+			File file = new File(
+					pastaServ.getCaminho(arq.getContratante()) + arq.getPasta().getId() + "/" + arq.getNome());
+			FileInputStream input = new FileInputStream(file);
+			BufferedImage image = ImageIO.read(input);
+
+			Builder<BufferedImage> thumbnail = resizeTumb(image, largura, altura);
 
 			thumbnail.addFilter(new Canvas(largura, altura, Positions.CENTER, Color.WHITE));
 
@@ -689,8 +723,9 @@ public class ArquivoController extends AbstractController {
 
 	}
 
-	public byte[] recuperarFileInputStream(InputStream input, HttpServletResponse response, Arquivo arq) throws Exception {
-		if(arq == null) {
+	public byte[] recuperarFileInputStream(InputStream input, HttpServletResponse response, Arquivo arq)
+			throws Exception {
+		if (arq == null) {
 			arq = new Arquivo();
 			arq.setNome("foto");
 			arq.setTipo("image/png");
@@ -716,7 +751,13 @@ public class ArquivoController extends AbstractController {
 	public void aplicaMarcaDagua(Builder<BufferedImage> thumbnail, Arquivo arq, String urlMarca, Integer largura,
 			Integer altura) throws MalformedURLException, IOException {
 
-		InputStream marca = new URL(urlMarca).openStream();
+		InputStream marca;
+		try {
+			marca = new URL(urlMarca).openStream();
+		} catch (Exception e) {
+			e.printStackTrace();
+			marca = null;
+		}
 
 		Positions posicao = Positions.CENTER;
 
@@ -740,7 +781,7 @@ public class ArquivoController extends AbstractController {
 
 	public byte[] recuperarFileUrl(String url, HttpServletResponse response) throws Exception {
 		InputStream input = new URL(url).openStream();
-		return recuperarFileInputStream(input, response,null);
+		return recuperarFileInputStream(input, response, null);
 	}
 
 }

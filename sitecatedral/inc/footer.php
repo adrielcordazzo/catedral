@@ -1,23 +1,18 @@
-        <!-- ***** Footer section ***** -->
+
         <footer class="footer-section" id="footerSection">
             <div class="content">
                 <div class="inner">
                     <div class="row">
                         <div class="large-3 columns">
                             <img alt="" src="<?php echo URLSITE; ?>img/logocatedral-vertical-branco.png">
-                        </div><!-- /.columns -->
+                        </div>
                         <div class="large-3 columns info-box">
 
-                            <h1>About Pistacia Church</h1>
-                            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed</p>
+                            <div class="facebook-likebox">
+        						<iframe src="//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fcatedralquadrangular&amp;colorscheme=light&amp;show_faces=true&amp;header=true&amp;stream=true&amp;show_border=true" width="100%" height="300px"></iframe>
+        					</div>
 
-                            <h1>Our church on Twitter</h1>
-                            <ul class="twitter-roll">
-                                <li><i class="fa fa-twitter-square"></i> <a href="#">@pistaciachurch</a> stet clita kasd gubergren, no sea takimata July. 18, 2015 nulla convallis egestas rhmauris quam</li>
-                                <li><i class="fa fa-twitter-square"></i> <a href="#">@pistaciachurch</a> consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam July. 18, 2015 Nulla convallis egestas rhmauris quam</li>
-                            </ul>
-
-                        </div><!-- /.columns -->
+                        </div>
                         <div class="large-3 columns blogroll-box">
                             <h1>Menu</h1>
                             <ul class="list-arrow">
@@ -27,7 +22,7 @@
                                 <li><a href="<?php echo URLSITE; ?>celular">Células</a></li>
                                 <li><a href="<?php echo URLSITE; ?>contato">Contato</a></li>
                             </ul>
-                        </div><!-- /.columns -->
+                        </div>
                         <div class="large-3 columns contact-box">
                             <img alt="" src="<?php echo URLSITE; ?>img/logocatedral-branco.png">
                             <ul class="contact">
@@ -35,19 +30,16 @@
                                 <li>contato@catedralquadrangular.com.br</li>
                             </ul>
                             <div class="text-center">
-                                <a href="#" class="button btn-dark">Entre em Contato</a>
+                                <a href="<?php echo URLSITE; ?>contato" class="button btn-dark">Entre em Contato</a>
                             </div>
                             <ul class="socials">
-                                <li><a href="#" class="icon"><i class="fa fa-facebook-official"></i></a></li>
-                                <li><a href="#" class="icon"><i class="fa fa-twitter-square"></i></a></li>
-                                <li><a href="#" class="icon"><i class="fa fa-youtube-square"></i></a></li>
-                                <li><a href="#" class="icon"><i class="fa fa-pinterest-square"></i></a></li>
-                                <li><a href="#" class="icon"><i class="fa fa-skype"></i></a></li>
+                                <li><a href="http://www.facebook.com.br/catedralquadrangular" class="icon" target="_blank"><i class="fa fa-facebook-official"></i></a></li>
+                                <li><a href="http://www.youtube.com/catedralquadrangular" class="icon" target="_blank"><i class="fa fa-youtube-square"></i></a></li>
                             </ul>
-                        </div><!-- /.columns -->
-                    </div><!-- /.row -->
-                </div><!-- /.inner -->
-            </div><!-- /.content -->
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="copyright">
                 <div class="inner">
                     <div class="row">
@@ -61,11 +53,9 @@
                 </div>
             </div>
             
-        </footer><!-- #footerSection -->
+        </footer>
 
 
-
-        <!-- ***** Search modals ***** -->
         <div class="ps-modal-overlay" id="searchModal">
             <a class="overlay-close"></a>
             <div class="search row">
@@ -78,31 +68,35 @@
                             <div class="small-4 columns">
                                 <a href="#" class="button"><i class="fa fa-search"></i></a>
                             </div>
-                        </div><!-- /.row -->
+                        </div>
                     </form>
-                </div><!-- /.large-12 -->
-            </div><!-- /.search -->
-        </div><!-- /#searchModal -->
+                </div>
+            </div>
+        </div>
 
         <a class="exit-off-canvas"></a>
 
     </div>
 </div>
 
-<script src="assets/js/modernizr.js"></script>
-<script src="assets/js/jquery.js"></script>
-<script src="assets/js/jquery.cookie.js"></script>
-<script src="assets/js/foundation.js"></script>
-<script src="assets/js/classie.js"></script>
-<script src="assets/js/owl.carousel.js"></script>
-<script src="assets/js/jquery.validate.js"></script>
-<script src="assets/js/jquery.countdown.js"></script>
-<script src="assets/js/jquery.counterup.js"></script>
-<script src="assets/js/jquery.scrollTo.js"></script>
-<script src="assets/js/jquery.waypoints.js"></script>
+<script src="<?php echo URLSITE; ?>assets/js/modernizr.js"></script>
+<script src="<?php echo URLSITE; ?>assets/js/jquery.js"></script>
+<script src="<?php echo URLSITE; ?>assets/js/jquery.cookie.js"></script>
+<script src="<?php echo URLSITE; ?>assets/js/foundation.js"></script>
+<script src="<?php echo URLSITE; ?>assets/js/classie.js"></script>
+<script src="<?php echo URLSITE; ?>assets/js/owl.carousel.js"></script>
+<script src="<?php echo URLSITE; ?>assets/js/jquery.validate.js"></script>
+<script src="<?php echo URLSITE; ?>assets/js/jquery.countdown.js"></script>
+<script src="<?php echo URLSITE; ?>assets/js/jquery.counterup.js"></script>
+<script src="<?php echo URLSITE; ?>assets/js/jquery.scrollTo.js"></script>
+<script src="<?php echo URLSITE; ?>assets/js/jquery.waypoints.js"></script>
+<script src="<?php echo URLSITE; ?>assets/js/jquery.countdown.js"></script>
+<script src="<?php echo URLSITE; ?>assets/js/jquery.scrollTo.js"></script>
+<script src="<?php echo URLSITE; ?>assets/js/masonry.pkgd.js"></script>
+<script src="<?php echo URLSITE; ?>assets/js/jquery.swipebox.js"></script>
+<script src="<?php echo URLSITE; ?>assets/js/lightgallery.js"></script>
 
-<!-- Application main -->
-<script src="assets/js/application.js"></script>
+<script src="<?php echo URLSITE; ?>assets/js/application.js"></script>
 
 <script>
     APP.init();

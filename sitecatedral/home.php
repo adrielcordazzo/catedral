@@ -7,7 +7,7 @@ $blogs = listarConteudo("40288a826328e88a016328e92bc90000",10,1);
 $html = '';
 foreach($blogs->list as $blog){
     
-    $img = URLSITE . 'imagem.php?id=' . $blog->pasta->id. '&a=pasta&altura=400&largura=400';
+    $img = URLSITE . 'imagem.php?id=' . $blog->pasta->id. '&a=ps&altura=600&largura=600';
     
     $html .= '<div class="row item">
                 <div class="columns medium-4 photo">

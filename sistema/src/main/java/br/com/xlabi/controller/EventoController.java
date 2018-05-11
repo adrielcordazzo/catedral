@@ -30,15 +30,13 @@ import br.com.xlabi.service.EventoService;
 
 public class EventoController extends AbstractController {
 
-	
-
 	@Autowired
 	private EventoService eventoService;
 
 	@RequestMapping(value = { "/evento/save" }, method = { RequestMethod.POST,
 			RequestMethod.PUT }, consumes = "application/json")
-	public @ResponseBody ResponseEntity<Result> update(@Valid @RequestBody Evento evento,
-			HttpServletRequest request, BindingResult bindingResult) {
+	public @ResponseBody ResponseEntity<Result> update(@Valid @RequestBody Evento evento, HttpServletRequest request,
+			BindingResult bindingResult) {
 		Result result = new Result();
 		HttpStatus returnStatus = HttpStatus.OK;
 		SessaoUser sessao = this.verificaSessao(request);
@@ -71,7 +69,7 @@ public class EventoController extends AbstractController {
 		HashMap<String, Object> dados = new HashMap<String, Object>();
 
 		dados.put("modelo", new Evento());
-		
+
 		result.setData(dados);
 		return new ResponseEntity<Result>(result, returnStatus);
 	}
@@ -102,8 +100,7 @@ public class EventoController extends AbstractController {
 		return new ResponseEntity<Result>(result, returnStatus);
 	}
 
-	@RequestMapping(value = {
-			"/evento/deleteAll" }, method = RequestMethod.DELETE, consumes = "application/json")
+	@RequestMapping(value = { "/evento/deleteAll" }, method = RequestMethod.DELETE, consumes = "application/json")
 	public @ResponseBody ResponseEntity<Result> deleteAll(@RequestBody String[] ids, HttpServletRequest request,
 			BindingResult bindingResult) {
 

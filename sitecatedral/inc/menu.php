@@ -1,11 +1,11 @@
-<!-- ***** Page loader ***** -->
-<section class="page-loader" id="pageLoader">
+
+<!-- section class="page-loader" id="pageLoader">
     <div class="spinner">
         <div class="bounce1"></div>
         <div class="bounce2"></div>
         <div class="bounce3"></div>
-    </div><!-- /.spinner -->
-</section><!-- /.page-loader -->
+    </div>
+</section-->
 
 
 

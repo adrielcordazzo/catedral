@@ -20,6 +20,7 @@
         <!-- Template styles -->
         <link rel="stylesheet" href="<?php echo URLSITE; ?>assets/css/backgrounds.css">
         <link rel="stylesheet" href="<?php echo URLSITE; ?>assets/css/style-red.css">
+        <link rel="stylesheet" href="<?php echo URLSITE; ?>assets/css/lightgallery.css">
 
         <!-- Favicons -->
         <link rel="shortcut icon" href="<?php echo URLSITE; ?>img/favicon.ico" type="image/x-icon" />

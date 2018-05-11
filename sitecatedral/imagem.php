@@ -20,8 +20,6 @@ if($funcao == 'ps'){
     $img = URL . 'api/arquivo/getPastaSize/' . $id . '/'.$largura.'/' . $altura;
 }else if($funcao == 'ar'){
     $img = URL . 'api/arquivo/getArquivo/' . $id . '/'.$largura.'/' . $altura;
-}else if($funcao == 'aro'){
-    $img = URL . 'api/arquivo/getArquivoObra/' . $id . '/'.$largura.'/' . $altura;
 }else if($funcao == 'pasta'){
     $img = URL . 'api/arquivo/getPastaImage/' . $id . '/'.$largura.'/' . $altura;
 }

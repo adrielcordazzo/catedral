@@ -7,7 +7,7 @@ include_once 'inc/header.php';
 
     <?php include_once 'inc/menu.php'; ?>
 
-    <section class="title-picture-section">
+    <section class="dark-line-section">
         <div class="inner">
             <div class="row">
                 <div class="small-12 columns">

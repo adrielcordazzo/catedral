@@ -25,7 +25,8 @@
         <div class="col-sm-12 form-group">
             <label class="control-label">Membro: </label>
             <select name="membro"  id="membro" class="form-control" 
-            data-select="membro/listAll" 
+            data-select="membro/list"
+            autocomplete="true" 
             data-value="id" 
             data-desc="nome"
             placeholder="Membro">
