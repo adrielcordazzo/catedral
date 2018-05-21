@@ -22,7 +22,9 @@ foreach($blogs->list as $blog){
     
     $html .= '<div class="row item">
                 <div class="columns medium-3 photo">
-                    <img src="' . $img . '" alt="">
+                    <a href="' . URLSITE . 'artigo/' . $blog->id . '">
+                        <img src="' . $img . '" alt="">
+                    </a>
                 </div>
                 <div class="columns medium-9 info">
                     <h5><a class="font-lora" href="' . URLSITE . 'artigo/' . $blog->id . '">' . $blog->titulo . '</a></h5>

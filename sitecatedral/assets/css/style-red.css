@@ -10542,7 +10542,7 @@ ul.list-arrow li a:before {
     position : relative;
     height : 600px;
     text-align : center;
-    background-position : center center;
+    background-position : top center;
     background-size : cover;
 }
 .full-slider-carousel .item:before {
