@@ -39,6 +39,15 @@
 		</a>
 	</li>
 	</sec:authorize>
+	
+	<sec:authorize access="hasAnyAuthority('BANNERS','ADMINXLABI')">
+	<li>
+		<a href="#/banner">
+			<i class="fa fa-users"></i>
+			<span>Banners</span> 
+		</a>
+	</li>
+	</sec:authorize>
 
 	<sec:authorize access="hasAnyAuthority('CONTATO','ADMINXLABI')">
 	<li>

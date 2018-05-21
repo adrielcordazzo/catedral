@@ -99,6 +99,10 @@ importar(['util/Abstract','util/Application','router'] ,function (ABSTRACT,APLIC
                 evento1: { path: '/evento/add', moduleId: 'evento/EventoEditDataController' },
                 evento2: { path: '/evento/edit/:id', moduleId: 'evento/EventoEditDataController' },
                 
+                banner: { path: '/banner', moduleId: 'banner/BannerListController' },
+                banner1: { path: '/banner/add', moduleId: 'banner/BannerEditDataController' },
+                banner2: { path: '/banner/edit/:id', moduleId: 'banner/BannerEditDataController' },
+                
                 
                 // homeEdit: { path: '/home/:brasil', moduleId: 'user/user' },
                 // regex: { path: /^\/\w+\/\d+$/i, moduleId: 'user/user' },

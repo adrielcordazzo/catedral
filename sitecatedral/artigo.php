@@ -46,7 +46,7 @@ if(count($imagens)>0){
     foreach($imagens as $imagem){
         
             //$img = URL . 'api/arquivo/getArquivo/' . $imagem->id;
-            $img = URLSITE . 'imagem.php?id=' . $imagem->id. '&a=ar&altura=500&largura=500';
+            $img = URLSITE . 'imagem.php?id=' . $imagem->id. '&a=ar&altura=900&largura=900';
             
             $legenda = $conteudo->titulo;
             if($imagem->legenda){
