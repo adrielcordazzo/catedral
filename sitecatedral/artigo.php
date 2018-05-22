@@ -135,7 +135,7 @@ foreach($blogs->list as $blog){
                             <div class="format">
                                 <i class="flaticon-picture13"></i>
                             </div>
-                            <h3 class="title"><a href="blog-single.html"><?php echo $titulo; ?></a></h3>
+                            <h3 class="title"><?php echo $titulo; ?></h3>
                             <div class="meta">
                                 <ul>
                                     <li>Em <?php echo $conteudo->conteudotipo->tipo; ?></li>

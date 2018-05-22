@@ -63,10 +63,10 @@
                     <form>
                         <div class="row collapse">
                             <div class="small-8 columns">
-                                <input type="text" placeholder="Busca...">
+                                <input type="text" placeholder="Busca..." id="busca">
                             </div>
                             <div class="small-4 columns">
-                                <a href="#" class="button"><i class="fa fa-search"></i></a>
+                                <a href="#" onclick="buscarPalavra();return false;" class="button"><i class="fa fa-search"></i></a>
                             </div>
                         </div>
                     </form>
@@ -101,4 +101,19 @@
 <script>
     APP.init();
     APP.initPlugins();
+
+    function buscarPalavra(){
+		var palavra = $("#palavra").val();
+
+		$.ajax({
+			method: "POST",
+			url: "service/service.php?acao=buscarPalavra",
+			data: {palavra:palavra},
+			 type: 'POST',
+				success: function(dados) {
+					window.location.assign("<?php echo URLSITE; ?>artigos");
+				}
+		});
+		return false;
+    }
 </script>

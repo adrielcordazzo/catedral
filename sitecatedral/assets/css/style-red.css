@@ -10553,7 +10553,7 @@ ul.list-arrow li a:before {
     bottom : 0;
     left : 0;
     content : '';
-    background : rgba(0, 0, 0, 0.75);
+    background : rgba(0, 0, 0, 0.6);
 }
 .full-slider-carousel .item .caption {
     position : relative;

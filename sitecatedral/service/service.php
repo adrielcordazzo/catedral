@@ -8,6 +8,10 @@ function listarConteudo($tipo,$itens,$pagina){
     
     $fields = array();
     
+    //if(isset($_SESSION["busca"]) && isset($_SESSION["busca"]["search"])){
+        $fields["search"] = $_SESSION["busca"]["search"];
+    //}
+    
     $fields["maxResult"] = $itens;
     $fields["pagina"] = $pagina;
     
@@ -50,6 +54,10 @@ function obterConteudo($id){
     }
 }
 
+if($_GET["acao"] == "buscarPalavra"){
+    
+    $_SESSION["busca"]["search"] = $_POST["palavra"];
+}
 
 function obterImagens($idpasta){
     

@@ -33,10 +33,11 @@
 		}
 
 		ConteudoListController.prototype.termineteLoadList = function(data){
-
-			$("[data-action='upload']", this.divLoad).click(this.uploadProdutos.bind(this));
-
 			this.detectselect();
+			
+			$("[name='conteudotipo']",this.divLoad).change(this.aplicaFiltro.bind(this));
+			
+			this.dataBind();
 
 			$("tbody",this.divLoad).html("");
 			if(data.list){
@@ -56,26 +57,27 @@
 				}
 			}
 
-			$("[name='conteudotipofilter']",this.divLoad).change(this.aplicaFiltro.bind(this));
+			
 		}
 
 		ConteudoListController.prototype.aplicaFiltro = function(){
-    
-		    var self = this;
-			var conteudotipoId = $("[name='conteudotipofilter']",this.divLoad).val();
+		    
+			var self = this;
+			var conteudotipo = $("[name='conteudotipo']",this.divLoad).val();
 
 			self.pagination.campos = [];
 			self.pagination.values = [];
 			self.pagination.pagina = 1;
 
 
-			if(conteudotipoId!=null && conteudotipoId!="null"){
+			if(conteudotipo!=null && conteudotipo!=""){
 				self.pagination.campos.push("conteudotipo.id");
-				self.pagination.values.push(conteudotipoId);
+				self.pagination.values.push(conteudotipo);
+				this.dado.conteudotipo = conteudotipo;
 			}
 
-			self.loadTable();
-		 }
+	      	self.loadTable();
+		}
 
 		return new ConteudoListController();
 	}
