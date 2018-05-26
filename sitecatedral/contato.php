@@ -53,8 +53,8 @@ include_once 'inc/header.php';
                     </div>
                 </div>
                 <div class="medium-6 columns">
-                    <form class="light" id="contactForm">
-                        <input type="hidden" name="contactSec" id="contactSec"/>
+                    <form class="light" id="contactForm" onsubmit="return false;">
+                        <input type="hidden" name="tipo" value="2c9f8a7463801a02016399eeb2a40017" />
                         <div class="row">
                             <div class="medium-6 columns">
                                 <div class="row collapse">
@@ -78,7 +78,7 @@ include_once 'inc/header.php';
                             </div><!-- .columns -->
                         </div><!-- .row -->
                         <div class="row">
-                            <div class="medium-6 columns">
+                            <div class="medium-12 columns">
                                 <div class="row collapse">
                                     <div class="small-10 columns">
                                         <input type="text" name="email" id="email" placeholder="E-mail">
@@ -100,7 +100,7 @@ include_once 'inc/header.php';
                         </div><!-- .row -->
                         <div class="row">
                             <div class="medium-12 columns">
-                                <a href="#" class="button btn-send"><i class="fa fa-paper-plane"></i> Enviar</a>
+                                <a href="#" class="button btn-send" onclick="enviarContato(); return false;" ><i class="fa fa-paper-plane"></i> Enviar</a>
                             </div>
                         </div><!-- .row -->
                     </form>
@@ -123,6 +123,30 @@ include_once 'inc/header.php';
 
 
     <?php include_once 'inc/footer.php'; ?>
+    
+    <script>
+    function enviarContato(){
+    	//openLoad();
+    	var dados = $("form#formContato").serializeArray();
+    	$.ajax({
+    		method: "POST",
+    		url: "<?php echo URLSITE; ?>service/service.php?acao=enviaContato",
+    		data: dados,
+    		type: 'POST',
+    		success: function(dados) {
+    			//closeLoad();
+    			$("#msgContato").html("");
+    			if(dados == "sucesso"){
+    				$("#btnEnviar").remove();
+    				$("#msgContato").html('<div class="alert alert-success wow fadeInLeft delay-03s" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><strong>Sucesso </strong>ao enviar contato!</div>');
+    			}else{
+    				$("#msgContato").html('<div class="alert alert-danger wow fadeInLeft delay-03s" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><strong>Falha </strong> ao enviar contato. Tente novamente.</div>');
+    			}
+    		}
+    	});
+    }
+
+    </script>
 
 </body>
 </html>

@@ -24,57 +24,10 @@
             $(".model",this.element).remove();
           }
 
-          $("#membro",this.element).change(this.changemembro.bind(this));
-          this.closeLoad();
-
-          if(this.dado && this.dado.id && this.dado.membros){
-            for(var i in this.dado.membros){
-              this.buscamembroLista(this.dado.membros[i].id);
-            }
-          }
+          
         }
 
-        EventoEditDataController.prototype.changemembro = function(e){
-            if(!e.originalEvent)
-                return;
-            var idmembro = $("#membro",this.element).val();
-            $("#membro",this.element).selectpicker("val","");
-            $("#membro",this.element).selectpicker("refresh");
-            this.buscamembroLista(idmembro);
-        }
-
-        EventoEditDataController.prototype.buscamembroLista = function(idmembro){
-            if(!idmembro)
-                return;
-            this.get("membro/"+idmembro,null,this.addmembroLista.bind(this),null,null);
-        }
-
-        EventoEditDataController.prototype.addmembroLista = function(data){
-            var element = $(this.cloneListaMembro).clone();
-            var dado = data.data;
-            
-            $(".m-nome",element).html(dado.nome);  
-            $(".m-email",element).html(dado.email);  
-            $(".m-telefone",element).html(dado.telefone); 
-            $(".m-rg",element).html(dado.rg);  
-            $(".m-cpf",element).html(dado.cpf);  
-
-            var json = {membro:{id:dado.id}};
-            
-            this.membros.push(json);
-
-            $("[data-action='delete']", element).click(this.deletamembro.bind(this,element,json));
-
-            $("tbody",this.element).append(element);
-
-            element.data('json',json);
-        }
-
-        EventoEditDataController.prototype.deletamembro = function(element,json){
-            var index = this.membros.indexOf(json);
-            this.membros.splice(index,1);
-            $(element).remove();
-        }
+        
 
         EventoEditDataController.prototype.save = function() {
 
@@ -82,12 +35,10 @@
 
              $.extend(dataForm, this.dado);
 
-             dataForm.membros = this.membros;
-
-            
+                         
              this.monteSelectSave(dataForm);
              this.processData(dataForm);
- console.info("OBAA",dataForm);
+
              if(this.urlAction!=null){
               this.openLoad(this.divLoad);
               if(!dataForm.id)

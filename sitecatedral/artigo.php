@@ -73,7 +73,7 @@ if(count($imagens)>0){
 
 /**/
 
-$blogs = listarConteudo("40288a826328e88a016328e92bc90000",5,1);
+$blogs = listarConteudo("40288a826328e88a016328e92bc90000");
 
 $htmlUltimas = '';
 foreach($blogs->list as $blog){
@@ -98,6 +98,24 @@ foreach($blogs->list as $blog){
                     <a href="' . URLSITE . 'artigo/' . $blog->id . '"" class="button">Detalhes</a>
                 </div>
             </div>';
+}
+
+/**/
+
+$comentarios = listarComentarios($id,5,1);
+
+$htmlComentarios = '';
+foreach($comentarios->list as $comentario){
+    
+    $htmlComentarios .= '<li class="item">
+                            <div class="info">
+                                <h3 class="comment-name">' . $comentario->nome . '</h3>
+                                    <span class="date">
+                                        <i class="fa fa-calendar"></i> ' . $comentario->criado . '
+                                    </span>
+                                <p class="comment-text">'.$comentario->mensagem.'</p>
+                            </div>
+                         </li>';
 }
 ?>
         
@@ -155,6 +173,29 @@ foreach($blogs->list as $blog){
                         </div>
                     </section>
                     
+                    <ul class="comment-list">
+                    	<?php echo $htmlComentarios; ?>
+                    </ul>
+                    
+                    <h3 class="text-center">Enviar Comentário</h3>
+                    <form name="reviewForm" id="rvwForm" method="post">
+                        <input name="conteudo" id="rvwsec" value="<?php echo $id; ?>" type="hidden">
+                        <div class="row">
+                            <div class="medium-6 columns">
+                                <input name="nome" id="rvwname" placeholder="Nome *" required="" type="text">
+                            </div>
+                            <div class="medium-6 columns">
+                                <input name="email" id="rvwemail" placeholder="E-mail *" required="" type="text">
+                            </div>
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="medium-12 columns">
+                                <textarea name="mensagem" id="rvwmessage" rows="3" placeholder="Mensagem"></textarea>
+                            </div>
+                        </div><!-- /.row -->
+                        <a class="button btn-send" href="#" onclick="enviarComentario(); return false;">Enviar Comentário</a>
+                    </form>
+                    
                 </div>
                 <div class="medium-4 columns">
 
@@ -188,6 +229,29 @@ foreach($blogs->list as $blog){
         share: false,
         actualSize: false
     });
+
+    function enviarComentario(){
+    	//openLoad();
+    	var dados = $("form#rvwForm").serializeArray();
+    	$.ajax({
+    		method: "POST",
+    		url: "<?php echo URLSITE; ?>service/service.php?acao=enviaComentario",
+    		data: dados,
+    		type: 'POST',
+    		success: function(dados) {
+    			//closeLoad();
+    			$("#msgContato").html("");
+    			if(dados == "sucesso"){
+    				$("#btnEnviar").remove();
+    				$("#msgContato").html('<div class="alert alert-success wow fadeInLeft delay-03s" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><strong>Sucesso </strong>ao enviar contato!</div>');
+    				location.reload();	
+    			}else{
+    				$("#msgContato").html('<div class="alert alert-danger wow fadeInLeft delay-03s" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><strong>Falha </strong> ao enviar contato. Tente novamente.</div>');
+    			}
+    		}
+    	});
+    }
+
     </script>
 
 </body>

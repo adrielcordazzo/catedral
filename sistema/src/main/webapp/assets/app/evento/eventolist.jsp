@@ -8,6 +8,7 @@
         <div class="col-sm-12 ">
           <h1 class="m-n font-thin h3 text-black pull-left">Eventos</h1>
           <a data-action="inserir" class="btn btn-primary pull-right">Inserir</a>
+          <a data-action="criarEventos" class="btn btn-success pull-right">Criar Eventos</a>
 
         </div>
       </div>
@@ -28,6 +29,8 @@
                 
                 
                 <th>Título</th> 
+                <th>Data</th>
+                <th>Hora</th>  
                 <th style="width: 120px;"></th>
               </tr>
             </thead>
@@ -36,6 +39,8 @@
                 
                 
                 <td class="m-contatotipo">{titulo}</td>
+                <td class="m-contatotipo">{data}</td>
+                <td class="m-contatotipo">{hora}</td>
                 <td>
                   <a data-action="edit" class="btn btn-primary"><i class="fa fa-edit"></i></a>
                   <a data-action="delete" class="btn btn-danger"><i class="fa fa-trash"></i></a>

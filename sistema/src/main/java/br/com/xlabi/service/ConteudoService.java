@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.SimpleExpression;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,6 +118,7 @@ public class ConteudoService extends AbstractService<String, Conteudo> {
 		SimpleExpression ruser = retriction("usuario.id", sessao.getUsuario());
 		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
 		pages.setOrder(1);
+		//pages.setOrdercampo("criado");
 		Result result = super.listRestriction(pages, "prioridade", "titulo", restricao, ruser, rcontratante);
 		inicializeList(result.getList());
 		return result;
@@ -160,14 +162,40 @@ public class ConteudoService extends AbstractService<String, Conteudo> {
 		super.save(p);
 		return p;
 	}
+	
+	public Integer getNextCodigo(SessaoUser sessao) {
+		String empresa = sessao.getContratante().getId();
+		String sql = "SELECT prioridade FROM conteudo WHERE  contratante_id like '" + empresa + "'" + " ORDER BY prioridade DESC LIMIT "
+				+ 1;
+
+		SQLQuery q = getSession().createSQLQuery(sql);
+
+		Integer ends = (Integer) q.uniqueResult();
+
+		if (q.uniqueResult() == null) {
+			return 1;
+		}
+
+		if (ends > 0) {
+			return ends + 1;
+		}
+		return 1;
+	}
 
 	public Conteudo setReferencias(Conteudo p, SessaoUser sessao) {
 		p.setContratante(sessao.getContratante());
 		p.setUsuario(sessao.getUsuario());
+		
+		if (p.getId() == null) {
+
+			p.setPrioridade(getNextCodigo(sessao));
+		}
+		
 		if (p.getInativo() == null)
 			p.setInativo(0);
 
-		p.setCriado(new Date());
+		if(p.getCriado() == null)
+			p.setCriado(new Date());
 		p.setAtualizado(new Date());
 		if (p.getExcluido() == null)
 			p.setExcluido(0);

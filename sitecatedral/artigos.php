@@ -104,7 +104,7 @@ if($pagina >= 1){
             </div>
         </div>
     </section>
-<?php print_r($_SESSION); ?>
+
     <div class="events-section" id="eventsSection">
         <div class="inner">
             <div class="row">

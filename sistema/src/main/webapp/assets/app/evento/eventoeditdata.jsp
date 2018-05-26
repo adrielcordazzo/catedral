@@ -22,7 +22,7 @@
           <label>Descrição:</label> 
           <textarea name="descricao" rv-value="descricao" rows="4" id="descricao" class="form-control"></textarea>
         </div>
-        <div class="col-sm-12 form-group">
+        <!-- div class="col-sm-12 form-group">
             <label class="control-label">Membro: </label>
             <select name="membro"  id="membro" class="form-control" 
             data-select="membro/list"
@@ -44,7 +44,9 @@
             </tr>           
           </tbody>
         </table>
-      </div>
+      </div-->
+      
+      <div id="membros"></div>
 
 
       <a  data-action="save" class="btn btn-lg btn-primary">Salvar</a>

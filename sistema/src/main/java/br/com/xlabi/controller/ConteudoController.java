@@ -11,7 +11,9 @@ import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -187,20 +189,30 @@ public class ConteudoController extends AbstractController {
 				for (JsonNode j : array) {
 
 					Conteudo i = conteudoService.externalid(j.get("id").asText(), sessao);
-					if (i != null) {
+					if (i == null) {
 						continue;
 					}
-					i = new Conteudo();
-					i.setTitulo(j.get("titulo").asText());
+					//i = new Conteudo();
+					/*i.setTitulo(j.get("titulo").asText());
 					i.setConteudo(j.get("descricao").asText());
 					i.setYoutube(j.get("youtube").asText());
 					i.setPrioridade(j.get("id").asInt());
 					i.setExternalid(j.get("id").asText());
 					
 					Conteudotipo ct = conteudotipoServ.get("40288a826328e88a016328e92bc90000", sessao);
-					i.setConteudotipo(ct);
-
-					conteudoService.save(i, sessao);
+					i.setConteudotipo(ct);*/
+					if(!j.get("data").asText().equals("0000-00-00 00:00:00")) {
+						String[] dataparts = j.get("data").asText().split(" ");
+						String[] data = dataparts[0].split("-");
+						DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+						String dataformatada = data[2]+"/"+data[1]+"/"+data[0];
+						System.out.println("DATA FORMATADA " + dataformatada);
+						System.out.println("ARTIGO " + i.getTitulo() + " " + i.getId());
+						Date date = (Date)formatter.parse(dataformatada);
+						i.setCriado(date);
+	
+						conteudoService.save(i, sessao);
+					}
 				}
 			}
 		} catch (

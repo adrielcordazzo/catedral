@@ -2,6 +2,80 @@
 
 include_once("funcoes.php");
 
+function listarCelulas(){
+    $url = URL . "api/celula/list";
+    
+    $fields = array();
+    
+    $fields["maxResult"] = 200;
+    $fields["pagina"] = 1;
+    
+    $result = enviarDados($url, $fields);
+    
+    if($result && $result->valid != "true"){
+        return false;
+    }else{
+        return $result->list;
+    }
+}
+
+function listarProximosEventos(){
+    $url = URL . "api/evento/listproximos";
+    
+    $fields = array();
+    
+    $fields["maxResult"] = 2;
+    $fields["pagina"] = 1;
+    
+    $result = enviarDados($url, $fields);
+
+    if($result && $result->valid != "true"){
+        return false;
+    }else{
+        return $result->list;
+    }
+}
+
+function listarEventos($ano,$mes){
+    $url = URL . "api/evento/list";
+    
+    $fields = array();
+    
+    $fields["maxResult"] = 200;
+    $fields["pagina"] = 1;
+    $fields["mes"] = $mes;
+    $fields["ano"] = $ano;
+    
+    $result = enviarDados($url, $fields);
+    
+    if($result && $result->valid != "true"){
+        return false;
+    }else{
+        return $result->list;
+    }
+}
+
+function listarComentarios($id,$itens,$pagina){
+    $url = URL . "api/conteudo/list";
+    
+    
+    $fields = array();
+    
+    $fields["maxResult"] = 50;
+    $fields["pagina"] = 1;
+    
+    $fields["campos"][] = 'comentario.id';
+    $fields["values"][] = $id;
+    
+    $result = enviarDados($url, $fields);
+    
+    if($result && $result->valid != "true"){
+        return false;
+    }else{
+        return $result;
+    }
+}
+
 function listarConteudo($tipo,$itens,$pagina){
     $url = URL . "api/conteudo/list";
     
@@ -97,11 +171,27 @@ if($_GET["acao"] == "enviaContato"){
     $fields['telefone'] = $_POST['telefone'];
     $fields['email'] = $_POST['email'];
     $fields['nome'] = $_POST['nome'];
-    if(isset($_POST['imovelid'])){
-        $fields['imovelid'] = $_POST['imovelid'];
-    }
     $fields['contatotipo']["id"] = $_POST['tipo'];
     
+    $result = enviarDados($url, $fields);
+    
+    if($result && $result->valid){
+        echo "sucesso";
+    }else{
+        echo "falha";
+    }
+}
+
+if($_GET["acao"] == "enviaComentario"){
+    $url = URL . "api/comentario/save";
+    
+    
+    $fields['mensagem'] = $_POST['mensagem'];
+    $fields['email'] = $_POST['email'];
+    $fields['nome'] = $_POST['nome'];
+    if($_POST['conteudo']){
+        $fields['conteudo']["id"] = $_POST['conteudo'];
+    }
     $result = enviarDados($url, $fields);
     
     if($result && $result->valid){

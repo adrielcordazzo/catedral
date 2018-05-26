@@ -35,6 +35,8 @@
 		ConteudoListController.prototype.termineteLoadList = function(data){
 			this.detectselect();
 			
+			$("[data-action='upload']",this.divLoad).click(this.uploadProdutos.bind(this));
+			
 			$("[name='conteudotipo']",this.divLoad).change(this.aplicaFiltro.bind(this));
 			
 			this.dataBind();

@@ -13435,7 +13435,7 @@ ul.list-tabs li a:hover {
 .upcoming-event-section {
     padding-top : 60px;
     padding-bottom : 60px;
-    background-color : #fff;
+    /*background-color : #fff;*/
 }
 .upcoming-event-section .columns {
     padding-bottom : 20px;
@@ -13497,7 +13497,7 @@ ul.list-tabs li a:hover {
     font-size : 0.75rem;
     line-height : normal;
     display : inline-block;
-    width : 18%;
+    width : 22%;
     margin-right : 3px;
     padding : 5px;
     text-align : center;

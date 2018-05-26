@@ -39,6 +39,24 @@
 		</a>
 	</li>
 	</sec:authorize>
+
+	<sec:authorize access="hasAnyAuthority('COMENTARIOS','ADMINXLABI')">
+	<li>
+		<a href="#/comentario">
+			<i class="fa fa-comment"></i>
+			<span>Comentários</span> 
+		</a>
+	</li>
+	</sec:authorize>
+
+	<sec:authorize access="hasAnyAuthority('CELULAS','ADMINXLABI')">
+	<li>
+		<a href="#/celula">
+			<i class="fa fa-sitemap"></i>
+			<span>Células</span> 
+		</a>
+	</li>
+	</sec:authorize>
 	
 	<sec:authorize access="hasAnyAuthority('BANNERS','ADMINXLABI')">
 	<li>

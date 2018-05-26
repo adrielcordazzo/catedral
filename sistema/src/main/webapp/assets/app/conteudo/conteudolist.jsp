@@ -7,6 +7,7 @@
       <div class="row">
         <div class="col-sm-12 ">
           <h1 class="m-n font-thin h3 text-black pull-left">Conteúdo</h1>
+          <a data-action="upload" class="btn btn-success pull-right">Upload</a>
           <a data-action="inserir" class="btn btn-primary pull-right">Inserir</a>
         </div>
       </div> 
@@ -42,6 +43,7 @@
             <tr> 
               <th>Tipo</th>
               <th>Título</th>
+              <th>Data</th>
               <th>Url</th>
               <th>Prioridade</th> 
               <th style="width: 120px;"></th>
@@ -51,6 +53,7 @@
             <tr class="model">
               <td class="m-tipo">{conteudotipo.tipo}</td>
               <td class="m-titulo">{titulo}</td>
+              <td class="m-criado">{criado}</td>
               <td class="m-url">{url}</td>
               <td class="m-prioridade">{prioridade}</td>
               <td>

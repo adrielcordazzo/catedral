@@ -64,6 +64,9 @@ public class Evento extends AbstractEntity {
 	@JsonSerialize(using = JsonDateSerializer.class)
 	private Date data;
 	
+	@Column(name = "hora")
+	private String hora;
+	
 	@ManyToOne()
 	@JoinColumn(name = "contratante_id", updatable = false)
 	@JsonIgnore
@@ -78,9 +81,20 @@ public class Evento extends AbstractEntity {
 	@JsonIgnore
 	private Usuario usuario;
 	
+	/*
 	@OneToMany(mappedBy = "evento", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	private List<Eventomembro> membros = new ArrayList<Eventomembro>();
 
+	public List<Eventomembro> getMembros() {
+		return membros;
+	}
+
+
+
+	public void setMembros(List<Eventomembro> membros) {
+		this.membros = membros;
+	}
+	 */
 	public String getId() {
 		return id;
 	}
@@ -101,6 +115,16 @@ public class Evento extends AbstractEntity {
 
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
+	}
+
+	public String getHora() {
+		return hora;
+	}
+
+
+
+	public void setHora(String hora) {
+		this.hora = hora;
 	}
 
 
@@ -161,18 +185,6 @@ public class Evento extends AbstractEntity {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}
-
-
-
-	public List<Eventomembro> getMembros() {
-		return membros;
-	}
-
-
-
-	public void setMembros(List<Eventomembro> membros) {
-		this.membros = membros;
 	}
 
 

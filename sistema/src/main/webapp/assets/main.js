@@ -102,6 +102,14 @@ importar(['util/Abstract','util/Application','router'] ,function (ABSTRACT,APLIC
                 banner: { path: '/banner', moduleId: 'banner/BannerListController' },
                 banner1: { path: '/banner/add', moduleId: 'banner/BannerEditDataController' },
                 banner2: { path: '/banner/edit/:id', moduleId: 'banner/BannerEditDataController' },
+
+                celula: { path: '/celula', moduleId: 'celula/CelulaListController' },
+                celulaadd: { path: '/celula/add', moduleId: 'celula/CelulaEditDataController' },
+                celulaedit: { path: '/celula/edit/:id', moduleId: 'celula/CelulaEditDataController' }, 
+
+                comentario: { path: '/comentario', moduleId: 'comentario/ComentarioListController' },
+                comentarioadd: { path: '/comentario/add', moduleId: 'comentario/ComentarioEditDataController' },
+                comentarioedit: { path: '/comentario/edit/:id', moduleId: 'comentario/ComentarioEditDataController' }, 
                 
                 
                 // homeEdit: { path: '/home/:brasil', moduleId: 'user/user' },

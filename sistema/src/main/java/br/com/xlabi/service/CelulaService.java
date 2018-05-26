@@ -6,44 +6,38 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.SimpleExpression;
-import org.hibernate.type.StandardBasicTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.xlabi.entity.Categoria;
-import br.com.xlabi.entity.Evento;
-import br.com.xlabi.entity.Eventomembro;
-import br.com.xlabi.entity.Membro;
+import br.com.xlabi.service.geral.AbstractService;
+import br.com.xlabi.service.geral.PastaService;
+import br.com.xlabi.entity.Celula;
 import br.com.xlabi.entity.geral.Pasta;
 import br.com.xlabi.result.PaginateForm;
 import br.com.xlabi.result.Result;
 import br.com.xlabi.result.SessaoUser;
-import br.com.xlabi.service.geral.AbstractService;
-import br.com.xlabi.service.geral.PastaService;
 
 @Service
 @Transactional
-public class EventoService extends AbstractService<String, Evento> {
-	
+public class CelulaService extends AbstractService<String, Celula> {
 	@Autowired
 	PastaService pastaServ;
-
-	public Evento save(Evento evento, SessaoUser sessao) {
+	
+	public Celula save(Celula celula, SessaoUser sessao) {
 		
-		if (evento.getId() == null) {
+		if (celula.getId() == null) {
 			Pasta p = new Pasta();
 			p.setPasta("Template");
 			pastaServ.save(p, sessao);
-			evento.setPasta(p);
+			celula.setPasta(p);
 		}
 
-		setReferencias(evento, sessao);
+		setReferencias(celula, sessao);
 		try {
-			super.save(evento);
-			return evento;
+			super.save(celula);
+			return celula;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -52,9 +46,9 @@ public class EventoService extends AbstractService<String, Evento> {
 
 	public boolean delete(String id, SessaoUser sessao) {
 		try {
-			Evento evento = get(id, sessao);
-			if (evento != null) {
-				super.delete(evento);
+			Celula celula = get(id, sessao);
+			if (celula != null) {
+				super.delete(celula);
 				return true;
 			}
 		} catch (Exception e) {
@@ -70,11 +64,20 @@ public class EventoService extends AbstractService<String, Evento> {
 		return super.count(restricao, ruser, rcontratante);
 	}
 
-	public Evento get(String id, SessaoUser sessao) {
+	public Celula get(String id, SessaoUser sessao) {
 		SimpleExpression restricao = Restrictions.eq("id", id);
+		SimpleExpression ruser = retriction("usuario.id", sessao.getUsuario());
+		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
+		Celula celula = super.get(restricao, ruser, rcontratante);
+		inicialize(celula);
+		return celula;
+	}
+
+	public Celula getIdExterno(String id, SessaoUser sessao) {
+		SimpleExpression restricao = Restrictions.eq("externalid", id);
 		SimpleExpression ruser = retriction("usuario.id", null, sessao);
 		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
-		Evento temp = super.get(restricao, ruser, rcontratante);
+		Celula temp = super.get(restricao, ruser, rcontratante);
 		inicialize(temp);
 		return temp;
 	}
@@ -90,85 +93,61 @@ public class EventoService extends AbstractService<String, Evento> {
 		SimpleExpression restricao = null;
 		SimpleExpression ruser = retriction("usuario.id", sessao.getUsuario());
 		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
-		
-		Criterion rano = null;
-		Criterion rmes = null;
-		if(pages.getAno() != null) {
-			rano = Restrictions.sqlRestriction("YEAR(data) = ? ", pages.getAno(), StandardBasicTypes.INTEGER);
-		}
-		if(pages.getMes() != null) {
-			rmes = Restrictions.sqlRestriction("MONTH(data) = ? ", pages.getMes(), StandardBasicTypes.INTEGER);
-		}
-		
-		Result result = super.listRestriction(pages, "data", "titulo", restricao, ruser, rcontratante, rano, rmes);
-		
-		inicializeList(result.getList());
-		return result;
-	}
-	
-	public Result listproximos(PaginateForm pages, SessaoUser sessao) {
-		SimpleExpression restricao = null;
-		SimpleExpression ruser = retriction("usuario.id", sessao.getUsuario());
-		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
-		SimpleExpression rdata = Restrictions.ge("data", new Date());
-		System.out.println("LISTA EVENTOS");
-		Result result = super.listRestriction(pages, "data", "titulo", restricao, ruser, rcontratante, rdata);
+		Result result = super.listRestriction(pages, "nome", "nome", restricao, ruser, rcontratante);
 		inicializeList(result.getList());
 		return result;
 	}
 
-	public List<Evento> listAllEntity(SessaoUser sessao) {
+	public List<Celula> listAllEntity(SessaoUser sessao) {
 		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
 		Result result = super.listAllRestricao(rcontratante);
 		inicializeList(result.getList());
-		return (List<Evento>) result.getList();
+		return (List<Celula>) result.getList();
 	}
 
 	public Result listAll(SessaoUser sessao) {
+
+		// SimpleExpression ruser = retriction("usuario.id",
+		// sessao.getUsuario());
 		SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
+
 		Result result = super.listAllRestricao(rcontratante);
+
 		inicializeList(result.getList());
 		return result;
 	}
 
-	public void inicialize(Evento evento) {
-		if (evento != null) {
-			evento.getId();
-			/*if(evento.getMembros() != null) {
-				for(Eventomembro m : evento.getMembros()) {
-					m.getId();
-				}
-			}*/
+	public void inicialize(Celula celula) {
+		if (celula != null) {
+			celula.getCriado();
 		}
 	}
 
 	public void inicializeList(List<?> list) {
 		if (list != null) {
 			for (Object p : list) {
-				inicialize((Evento) p);
+				inicialize((Celula) p);
 			}
 		}
 	}
 
-	public Evento synchronizeAndSave(Evento p, Evento vs) {
+	public Celula synchronizeAndSave(Celula p, Celula vs) {
 
 		super.save(p);
 		return p;
 	}
 
-	public Evento setReferencias(Evento p, SessaoUser sessao) {
-		
+	public Celula setReferencias(Celula p, SessaoUser sessao) {
 		p.setContratante(sessao.getContratante());
 		p.setUsuario(sessao.getUsuario());
+		if (p.getInativo() == null)
+			p.setInativo(0);
 
-		/*if(p.getMembros() != null){
-			for(Eventomembro a : p.getMembros()){
-				a.setContratante(sessao.getContratante());
-				a.setUsuario(sessao.getUsuario());
-				a.setEvento(p);
-			}
-		}*/
-		
+		p.setCriado(new Date());
+		p.setAtualizado(new Date());
+		if (p.getExcluido() == null)
+			p.setExcluido(0);
+
 		return p;
 	}
 

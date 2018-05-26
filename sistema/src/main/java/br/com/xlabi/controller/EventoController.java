@@ -2,6 +2,7 @@
 package br.com.xlabi.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,6 +34,55 @@ public class EventoController extends AbstractController {
 	@Autowired
 	private EventoService eventoService;
 
+	@RequestMapping(value = { "/evento/criarEventos" }, method = RequestMethod.GET, consumes = "application/json")
+	public @ResponseBody ResponseEntity<Result> criarEventos(HttpServletRequest request) {
+
+		Result result = new Result();
+		HttpStatus returnStatus = HttpStatus.OK;
+		SessaoUser sessao = this.verificaSessao(request);
+		if (super.acceptRequest(sessao, null) != null) {
+			return super.acceptRequest(sessao, null);
+		}
+
+	    Calendar calendar = Calendar.getInstance();
+	    while(calendar.get(Calendar.YEAR) == Calendar.getInstance().get(Calendar.YEAR)){
+	        // The switch checks the day of the week for Saturdays and Sundays
+	        Evento evento = new Evento();
+	    	switch(calendar.get(Calendar.DAY_OF_WEEK)){
+		    	case Calendar.FRIDAY:
+	        		evento.setData(calendar.getTime());
+	        		evento.setHora("20:00");
+	        		evento.setTitulo("Culto de Sexta-feira");
+	        		evento.setDescricao("Culto de sexta-feira com o propósito da Corrente dos 7 elos.");
+	        		eventoService.save(evento, sessao);
+	        		System.out.println("SABADO " + calendar.getTime().toString());
+	        		break;
+	    		case Calendar.SATURDAY:
+	        		evento.setData(calendar.getTime());
+	        		evento.setHora("19:00");
+	        		evento.setTitulo("Rede Jovem");
+	        		evento.setDescricao("Encontro de Jovens");
+	        		eventoService.save(evento, sessao);
+	        		System.out.println("SABADO " + calendar.getTime().toString());
+	        		break;
+	        	case Calendar.SUNDAY:
+	        		evento.setData(calendar.getTime());
+	        		evento.setHora("19:00");
+	        		evento.setTitulo("Culto de Domingo");
+	        		evento.setDescricao("Culto de Domingo");
+	        		eventoService.save(evento, sessao);
+	        		System.out.println("DOMINGO " + calendar.getTime().toString());
+	        		break;
+	            
+	        }
+	        // Increment the day of the year for the next iteration of the while loop
+	        calendar.add(Calendar.DAY_OF_YEAR, 1);
+	    }
+
+		return new ResponseEntity<Result>(result, returnStatus);
+
+	}
+	
 	@RequestMapping(value = { "/evento/save" }, method = { RequestMethod.POST,
 			RequestMethod.PUT }, consumes = "application/json")
 	public @ResponseBody ResponseEntity<Result> update(@Valid @RequestBody Evento evento, HttpServletRequest request,
@@ -156,7 +206,7 @@ public class EventoController extends AbstractController {
 		return new ResponseEntity<Result>(result, returnStatus);
 	}
 
-	@RequestMapping(value = { "/evento/list" }, method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = { "/evento/list","/api/evento/list" }, method = RequestMethod.POST, consumes = "application/json")
 	public @ResponseBody ResponseEntity<Result> list(@RequestBody PaginateForm pages, HttpServletRequest request,
 			BindingResult bindingResult) {
 
@@ -167,6 +217,24 @@ public class EventoController extends AbstractController {
 			return super.acceptRequest(sessao, bindingResult);
 		}
 		result = eventoService.list(pages, sessao);
+		destroyProxyClassList(result.getList());
+
+		return new ResponseEntity<Result>(result, returnStatus);
+
+	}
+	
+	@RequestMapping(value = { "/evento/listproximos","/api/evento/listproximos" }, method = RequestMethod.POST, consumes = "application/json")
+	public @ResponseBody ResponseEntity<Result> listproximos(@RequestBody PaginateForm pages, HttpServletRequest request,
+			BindingResult bindingResult) {
+
+		Result result = new Result();
+		HttpStatus returnStatus = HttpStatus.OK;
+		SessaoUser sessao = this.verificaSessao(request);
+		if (super.acceptRequest(sessao, bindingResult) != null) {
+			return super.acceptRequest(sessao, bindingResult);
+		}
+		System.out.println("BUSCA EVENTOS");
+		result = eventoService.listproximos(pages, sessao);
 		destroyProxyClassList(result.getList());
 
 		return new ResponseEntity<Result>(result, returnStatus);
