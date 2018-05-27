@@ -104,7 +104,6 @@ public abstract class AbstractService<PK extends Serializable, T> {
 		try {
 			lista = criteria.list();
 
-			System.out.println("lista+" + lista.size());
 			if (lista.size() > 0)
 				return lista.get(0);
 		} catch (Exception e) {
