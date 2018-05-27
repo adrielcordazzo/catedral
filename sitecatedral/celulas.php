@@ -16,6 +16,8 @@ foreach($celulas as $celula){
                                 ' . $celula->endereco . '
                             </div>
                             <div class="medium-8 columns">
+                                <i class="fa fa-map-marker"></i> ' . $celula->endereco . '
+                                <hr />
                                 ' . $celula->descricao . '
                             </div>
                             <!--div class="medium-2 columns">

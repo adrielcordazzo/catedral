@@ -22,7 +22,7 @@
                     <nav class="top-bar" id="topBar" data-topbar role="navigation" data-options="custom_back_text: true;back_text: Back;is_hover: true;mobile_show_parent_link: false; scrolltop : true">
                         <ul class="title-area">
                             <li class="name">
-                                <h1><a href="home1.html"><img alt="" src="<?php echo URLSITE; ?>img/logocatedral.png"></a></h1>
+                                <h1><a href="<?php echo URLSITE; ?>home"><img alt="" src="<?php echo URLSITE; ?>img/logocatedral.png"></a></h1>
                             </li>
                             <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
                         </ul>

@@ -107,10 +107,21 @@ public class Conteudo extends AbstractEntity {
 	@JsonIgnore
 	private Usuario usuario;
 	
+	@Column(name = "visualizacoes")
+	private Integer visualizacoes;
+	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "conteudocategoria", joinColumns = { @JoinColumn(name = "conteudo_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "categoria_id") })
 	private List<Categoria> categorias;
+
+	public Integer getVisualizacoes() {
+		return visualizacoes;
+	}
+
+	public void setVisualizacoes(Integer visualizacoes) {
+		this.visualizacoes = visualizacoes;
+	}
 
 	public List<Categoria> getCategorias() {
 		return categorias;

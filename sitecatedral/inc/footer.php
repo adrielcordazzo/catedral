@@ -19,7 +19,7 @@
                                 <li><a href="<?php echo URLSITE; ?>home">Home</a></li>
                                 <li><a href="<?php echo URLSITE; ?>artigos">Artigos</a></li>
                                 <li><a href="<?php echo URLSITE; ?>historia">História</a></li>
-                                <li><a href="<?php echo URLSITE; ?>celular">Células</a></li>
+                                <li><a href="<?php echo URLSITE; ?>celulas">Células</a></li>
                                 <li><a href="<?php echo URLSITE; ?>contato">Contato</a></li>
                             </ul>
                         </div>
@@ -60,7 +60,7 @@
             <a class="overlay-close"></a>
             <div class="search row">
                 <div class="large-12 columns">
-                    <form>
+                    <form onsubmit="return false;">
                         <div class="row collapse">
                             <div class="small-8 columns">
                                 <input type="text" placeholder="Busca..." id="busca">
@@ -103,7 +103,7 @@
     APP.initPlugins();
 
     function buscarPalavra(){
-		var palavra = $("#palavra").val();
+		var palavra = $("#busca").val();
 
 		$.ajax({
 			method: "POST",
@@ -116,4 +116,5 @@
 		});
 		return false;
     }
+
 </script>

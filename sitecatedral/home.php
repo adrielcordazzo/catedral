@@ -69,13 +69,13 @@ foreach($blogs->list as $blog){
                             <i class="flaticon-picture13"></i>
                         </div>
                         <div class="row">
-                            <div class="small-4 columns">
+                            <div class="medium-4 columns">
                                 <a href="' . URLSITE . 'artigo/' . $blog->id . '">
                                     <img src="' . $img . '" alt="' . $blog->titulo . '">
                                 </a>
                             </div>
-                            <div class="small-8 columns">
-                                <h3 class="title"><a href="blog-single.html">' . $blog->titulo . '</a></h3>
+                            <div class="medium-8 columns">
+                                <h3 class="title"><a href="' . URLSITE . 'artigo/' . $blog->id . '">' . $blog->titulo . '</a></h3>
                                 <div class="meta">
                                     <ul>
                                         <li>Em <a href="#">' . $blog->conteudotipo->tipo . '</a></li>

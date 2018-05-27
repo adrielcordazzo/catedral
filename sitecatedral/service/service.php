@@ -55,8 +55,8 @@ function listarEventos($ano,$mes){
     }
 }
 
-function listarComentarios($id,$itens,$pagina){
-    $url = URL . "api/conteudo/list";
+function listarComentarios($id){
+    $url = URL . "api/comentario/list";
     
     
     $fields = array();
@@ -64,7 +64,7 @@ function listarComentarios($id,$itens,$pagina){
     $fields["maxResult"] = 50;
     $fields["pagina"] = 1;
     
-    $fields["campos"][] = 'comentario.id';
+    $fields["campos"][] = 'conteudo.id';
     $fields["values"][] = $id;
     
     $result = enviarDados($url, $fields);
@@ -103,6 +103,18 @@ function listarConteudo($tipo,$itens,$pagina){
 
 function obterConteudoPorId($id){
     $url = URL . "api/conteudo/".$id;
+    
+    $result = enviarDadosGet($url);
+    
+    if($result && $result->valid != "true"){
+        return false;
+    }else{
+        return $result->data;
+    }
+}
+
+function incrementarVisualizacaoConteudo($id){
+    $url = URL . "api/conteudo/incrementarVisualizacao/".$id;
     
     $result = enviarDadosGet($url);
     
@@ -175,6 +187,8 @@ if($_GET["acao"] == "enviaContato"){
     
     $result = enviarDados($url, $fields);
     
+    print_r($fields);
+    
     if($result && $result->valid){
         echo "sucesso";
     }else{
@@ -192,6 +206,8 @@ if($_GET["acao"] == "enviaComentario"){
     if($_POST['conteudo']){
         $fields['conteudo']["id"] = $_POST['conteudo'];
     }
+    
+    print_r($fields);
     $result = enviarDados($url, $fields);
     
     if($result && $result->valid){

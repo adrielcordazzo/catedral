@@ -49,12 +49,12 @@ foreach($blogs->list as $blog){
                             <i class="flaticon-picture13"></i>
                         </div>
                         <div class="row">
-                            <div class="small-3 columns">
+                            <div class="medium-3 columns">
                                 <a href="' . URLSITE . 'artigo/' . $blog->id . '">
                                     <img src="' . $img . '" alt="' . $blog->titulo . '">
                                 </a>
                             </div>
-                            <div class="small-9 columns">
+                            <div class="medium-9 columns">
                                 <h3 class="title"><a href="blog-single.html">' . $blog->titulo . '</a></h3>
                                 <div class="meta">
                                     <ul>
@@ -109,6 +109,16 @@ if($pagina >= 1){
         <div class="inner">
             <div class="row">
                 <div class="medium-12 columns">
+                	<form onsubmit="return false;">
+                		<div class="row collapse">
+                            <div class="small-10 columns">
+                                <input type="text" placeholder="Busca..." id="busca" value="<?php echo $_SESSION["busca"]["search"]; ?>">
+                            </div>
+                            <div class="small-2 columns">
+                                <span class="postfix"><a href="#" onclick="buscarPalavra();return false;" class="button" style="width:100%; padding:6px 0;"><i class="fa fa-search"></i></a></span>
+                            </div>
+                        </div>
+                    </form>
                 	<?php echo $html; ?>
                     <div class="pagination-centered">
                         <ul class="pagination" role="menubar" aria-label="Pagination">

@@ -11003,9 +11003,9 @@ ul.comment-list {
     margin-botom : 40px;
 }
 ul.comment-list li.item {
-    padding-top : 15px;
+    /*padding-top : 15px;
     padding-bottom : 15px;
-    border-bottom : 1px solid #efefef;
+    border-bottom : 1px solid #efefef;*/
 }
 ul.comment-list li.item .photo img {
     border : 8px solid #f6f6f6;

@@ -354,6 +354,37 @@ public class ConteudoController extends AbstractController {
 		return new ResponseEntity<Result>(result, returnStatus);
 	}
 	
+	@RequestMapping(value = { "/conteudo/incrementarVisualizacao/{id}","/api/conteudo/incrementarVisualizacao/{id}" }, method = RequestMethod.GET, consumes = "application/json")
+	public @ResponseBody ResponseEntity<Result> incrementarVisualizacao(@PathVariable("id") String id, HttpServletRequest request) {
+
+		Result result = new Result();
+		HttpStatus returnStatus = HttpStatus.OK;
+		SessaoUser sessao = this.verificaSessao(request);
+		if (super.acceptRequest(sessao, null) != null) {
+			return super.acceptRequest(sessao, null);
+		}
+		Conteudo conteudo = conteudoService.get(id, sessao);
+		
+		
+		
+
+		if (conteudo != null) {
+			destroyProxyClass(conteudo);
+			
+			Integer visualizacoes = conteudo.getVisualizacoes();
+			visualizacoes ++;
+			
+			conteudo.setVisualizacoes(visualizacoes);
+			
+			conteudoService.save(conteudo, sessao);
+			result.setData(conteudo);
+		} else {
+			returnStatus = HttpStatus.NO_CONTENT;
+			result.addError("get", getMessage("error.find", new String[] { "conteudo" }));
+		}
+		return new ResponseEntity<Result>(result, returnStatus);
+	}
+	
 	@RequestMapping(value = { "/conteudoPorUrl/{id}","/api/conteudoPorUrl/{url}" }, method = RequestMethod.GET, consumes = "application/json")
 	public @ResponseBody ResponseEntity<Result> getUrl(@PathVariable("url") String url, HttpServletRequest request) {
 

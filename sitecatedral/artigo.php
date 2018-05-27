@@ -11,10 +11,6 @@ else
 
 $conteudo = obterConteudoPorId($id);
 
-/*echo "<pre>";
-print_r($conteudo);
-echo "</pre>";*/
-
 $titulo = $conteudo->titulo;
 
 $imagens = obterImagens($conteudo->pasta->id);
@@ -73,7 +69,7 @@ if(count($imagens)>0){
 
 /**/
 
-$blogs = listarConteudo("40288a826328e88a016328e92bc90000");
+$blogs = listarConteudo("40288a826328e88a016328e92bc90000",10,1);
 
 $htmlUltimas = '';
 foreach($blogs->list as $blog){
@@ -102,12 +98,13 @@ foreach($blogs->list as $blog){
 
 /**/
 
-$comentarios = listarComentarios($id,5,1);
-
+$comentarios = listarComentarios($id);
+//print_r($comentarios);
 $htmlComentarios = '';
 foreach($comentarios->list as $comentario){
     
     $htmlComentarios .= '<li class="item">
+                            <hr />
                             <div class="info">
                                 <h3 class="comment-name">' . $comentario->nome . '</h3>
                                     <span class="date">
@@ -117,6 +114,10 @@ foreach($comentarios->list as $comentario){
                             </div>
                          </li>';
 }
+
+/**/
+
+incrementarVisualizacaoConteudo($id);
 ?>
         
 </head>
@@ -157,6 +158,7 @@ foreach($comentarios->list as $comentario){
                             <div class="meta">
                                 <ul>
                                     <li>Em <?php echo $conteudo->conteudotipo->tipo; ?></li>
+                                    <li><i class="fa fa-eye"></i> (<?php echo $conteudo->visualizacoes; ?>) Visualizações</li>
                                 </ul>
                             </div>
                             <?php echo nl2br($conteudo->conteudo); ?>
@@ -178,7 +180,7 @@ foreach($comentarios->list as $comentario){
                     </ul>
                     
                     <h3 class="text-center">Enviar Comentário</h3>
-                    <form name="reviewForm" id="rvwForm" method="post">
+                    <form name="reviewForm" id="rvwForm" method="post" onsubmit="return false;">
                         <input name="conteudo" id="rvwsec" value="<?php echo $id; ?>" type="hidden">
                         <div class="row">
                             <div class="medium-6 columns">
@@ -187,12 +189,12 @@ foreach($comentarios->list as $comentario){
                             <div class="medium-6 columns">
                                 <input name="email" id="rvwemail" placeholder="E-mail *" required="" type="text">
                             </div>
-                        </div><!-- /.row -->
+                        </div>
                         <div class="row">
                             <div class="medium-12 columns">
                                 <textarea name="mensagem" id="rvwmessage" rows="3" placeholder="Mensagem"></textarea>
                             </div>
-                        </div><!-- /.row -->
+                        </div>
                         <a class="button btn-send" href="#" onclick="enviarComentario(); return false;">Enviar Comentário</a>
                     </form>
                     

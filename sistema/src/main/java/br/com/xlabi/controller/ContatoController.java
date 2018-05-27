@@ -52,12 +52,10 @@ public class ContatoController extends AbstractController {
 		if (contatoService.save(contato, sessao) != null) {
 			
 			String email = sessao.getContratante().getEmail();
-			String assunto = "Rudimar Zini | Mensagem do Site";
+			String assunto = sessao.getContratante().getNome() + " | Mensagem do Site";
 			String mensagem = "";
 			
-			
-			
-			mensagem += "<strong>Cliente:</strong> " + contato.getNome() + "<br>" +
+			mensagem += "<strong>Nome:</strong> " + contato.getNome() + "<br>" +
 					  "<strong>E-mail:</strong>" + contato.getEmail() + "<br>" +
 					  "<strong>Telefone:</strong>" + contato.getTelefone() + "<br>" +
 					  "<strong>Mensagem:</strong>" + contato.getTexto() + "<br>";

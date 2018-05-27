@@ -127,7 +127,7 @@ include_once 'inc/header.php';
     <script>
     function enviarContato(){
     	//openLoad();
-    	var dados = $("form#formContato").serializeArray();
+    	var dados = $("form#contactForm").serializeArray();
     	$.ajax({
     		method: "POST",
     		url: "<?php echo URLSITE; ?>service/service.php?acao=enviaContato",
