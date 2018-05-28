@@ -123,6 +123,17 @@ incrementarVisualizacaoConteudo($id);
 </head>
 <body id="pageTop" class="fixed-navbar">
 
+	<div id="fb-root"></div>
+	<script>
+		(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/pt_BR/all.js#xfbml=1&appId=242554282548198";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+    </script>
+
     <?php include_once 'inc/menu.php'; ?>
 
     <section class="dark-line-section">
@@ -159,6 +170,10 @@ incrementarVisualizacaoConteudo($id);
                                 <ul>
                                     <li>Em <?php echo $conteudo->conteudotipo->tipo; ?></li>
                                     <li><i class="fa fa-eye"></i> (<?php echo $conteudo->visualizacoes; ?>) Visualizações</li>
+                                    <li class="pull-right">
+                                    	<div class="fb-like float-right" data-href="<?php echo $url; ?>" data-send="true" 
+                        				data-layout="button_count" data-width="450" data-show-faces="true"></div>
+                                    </li>
                                 </ul>
                             </div>
                             <?php echo nl2br($conteudo->conteudo); ?>

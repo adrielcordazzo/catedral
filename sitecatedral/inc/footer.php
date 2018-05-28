@@ -1,4 +1,5 @@
 
+
         <footer class="footer-section" id="footerSection">
             <div class="content">
                 <div class="inner">
@@ -11,6 +12,8 @@
                             <div class="facebook-likebox">
         						<iframe src="//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fcatedralquadrangular&amp;colorscheme=light&amp;show_faces=true&amp;header=true&amp;stream=true&amp;show_border=true" width="100%" height="300px"></iframe>
         					</div>
+        					
+        					
 
                         </div>
                         <div class="large-3 columns blogroll-box">

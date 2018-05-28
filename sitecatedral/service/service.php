@@ -207,7 +207,6 @@ if($_GET["acao"] == "enviaComentario"){
         $fields['conteudo']["id"] = $_POST['conteudo'];
     }
     
-    print_r($fields);
     $result = enviarDados($url, $fields);
     
     if($result && $result->valid){

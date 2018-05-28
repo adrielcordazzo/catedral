@@ -24,3 +24,6 @@
 
         <!-- Favicons -->
         <link rel="shortcut icon" href="<?php echo URLSITE; ?>img/favicon.ico" type="image/x-icon" />
+        
+        <meta property="fb:admins" content="623713928"/> <!-- Facebook - ID de admin Adriel Cordazzo -->
+		<meta property="fb:app_id" content="242554282548198"/> <!-- Facebook - ID de App Catedral Quadrangular -->

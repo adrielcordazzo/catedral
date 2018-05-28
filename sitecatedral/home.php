@@ -44,6 +44,7 @@ foreach($eventos as $evento){
 }
 /**/
 
+unset($_SESSION["busca"]);
 
 $blogs = listarConteudo("40288a826328e88a016328e92bc90000",10,1);
 
@@ -117,6 +118,17 @@ foreach($destaques->list as $blog){
 </head>
 <body id="pageTop" class="fixed-navbar">
 
+	<div id="fb-root"></div>
+	<script>
+		(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/pt_BR/all.js#xfbml=1&appId=242554282548198";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+    </script>
+
     <?php include_once 'inc/menu.php'; ?>
 
     <?php include_once 'inc/banner.php'; ?>
@@ -142,6 +154,8 @@ foreach($destaques->list as $blog){
         <div class="inner">
             <div class="row">
                 <div class="medium-8 columns">
+                	<div class="fb-like" data-href="https://www.facebook.com/CatedralQuadrangular" data-send="true" 
+                    data-layout="button_count" data-width="450" data-show-faces="true"></div>
                 	<?php echo $html; ?>
                 </div>
 				<div class="medium-4 columns">
