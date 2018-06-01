@@ -2,6 +2,8 @@
 
 include_once 'inc/header.php'; 
 
+unset($_SESSION["busca"]);
+
 $urlAux = explode('/', $_GET['p']);
 
 if(!isset($urlAux[1]) || !$urlAux[1] >= 1)
@@ -10,6 +12,11 @@ else
     $id = $urlAux[1];
 
 $conteudo = obterConteudoPorId($id);
+
+
+if(!$conteudo){
+    die( Header( "Location: " . URLSITE . "artigos" ) );
+}
 
 $titulo = $conteudo->titulo;
 
@@ -98,8 +105,8 @@ foreach($blogs->list as $blog){
 
 /**/
 
-$comentarios = listarComentarios($id);
-//print_r($comentarios);
+$comentarios = listarComentarios($id,50);
+
 $htmlComentarios = '';
 foreach($comentarios->list as $comentario){
     
@@ -171,7 +178,7 @@ incrementarVisualizacaoConteudo($id);
                                     <li>Em <?php echo $conteudo->conteudotipo->tipo; ?></li>
                                     <li><i class="fa fa-eye"></i> (<?php echo $conteudo->visualizacoes; ?>) Visualizações</li>
                                     <li class="pull-right">
-                                    	<div class="fb-like float-right" data-href="<?php echo $url; ?>" data-send="true" 
+                                    	<div class="fb-like float-right" data-href="<?php echo URLSITE; ?>artigo/<?php echo $id; ?>" data-send="true" 
                         				data-layout="button_count" data-width="450" data-show-faces="true"></div>
                                     </li>
                                 </ul>
@@ -199,15 +206,15 @@ incrementarVisualizacaoConteudo($id);
                         <input name="conteudo" id="rvwsec" value="<?php echo $id; ?>" type="hidden">
                         <div class="row">
                             <div class="medium-6 columns">
-                                <input name="nome" id="rvwname" placeholder="Nome *" required="" type="text">
+                                <input name="nome" id="rvwname" placeholder="Nome *" required="required" type="text">
                             </div>
                             <div class="medium-6 columns">
-                                <input name="email" id="rvwemail" placeholder="E-mail *" required="" type="text">
+                                <input name="email" id="rvwemail" placeholder="E-mail * Não será divulgado" required="required" type="text">
                             </div>
                         </div>
                         <div class="row">
                             <div class="medium-12 columns">
-                                <textarea name="mensagem" id="rvwmessage" rows="3" placeholder="Mensagem"></textarea>
+                                <textarea name="mensagem" id="rvwmessage" rows="3" placeholder="Mensagem" required="required"></textarea>
                             </div>
                         </div>
                         <a class="button btn-send" href="#" onclick="enviarComentario(); return false;">Enviar Comentário</a>
@@ -224,8 +231,20 @@ incrementarVisualizacaoConteudo($id);
                             <div class="content">
                                 <?php echo $htmlUltimas; ?>
                             </div>
+                            
+                            <div class="ws-title left-line">
+                                <h1 class="title">Facebook</h1>
+                            </div>
+                            <div class="content">
+                                <div class="fb-comments" data-href="<?php echo URLSITE; ?>artigo/<?php echo $id; ?>" data-width="100%" data-num-posts="5" style="width:100%; max-width:450px;"></div>
+                            </div>
+                            
+                            
+                            
                         </div>
                     </div>
+                    
+                    
                     
                 </div>
             </div>
@@ -247,27 +266,7 @@ incrementarVisualizacaoConteudo($id);
         actualSize: false
     });
 
-    function enviarComentario(){
-    	//openLoad();
-    	var dados = $("form#rvwForm").serializeArray();
-    	$.ajax({
-    		method: "POST",
-    		url: "<?php echo URLSITE; ?>service/service.php?acao=enviaComentario",
-    		data: dados,
-    		type: 'POST',
-    		success: function(dados) {
-    			//closeLoad();
-    			$("#msgContato").html("");
-    			if(dados == "sucesso"){
-    				$("#btnEnviar").remove();
-    				$("#msgContato").html('<div class="alert alert-success wow fadeInLeft delay-03s" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><strong>Sucesso </strong>ao enviar contato!</div>');
-    				location.reload();	
-    			}else{
-    				$("#msgContato").html('<div class="alert alert-danger wow fadeInLeft delay-03s" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><strong>Falha </strong> ao enviar contato. Tente novamente.</div>');
-    			}
-    		}
-    	});
-    }
+    
 
     </script>
 

@@ -55,7 +55,7 @@ foreach($blogs->list as $blog){
                                 </a>
                             </div>
                             <div class="medium-9 columns">
-                                <h3 class="title"><a href="blog-single.html">' . $blog->titulo . '</a></h3>
+                                <h3 class="title"><a href="' . URLSITE . 'artigo/' . $blog->id . '">' . $blog->titulo . '</a></h3>
                                 <div class="meta">
                                     <ul>
                                         <li>Em <a href="#">' . $blog->conteudotipo->tipo . '</a></li>

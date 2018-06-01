@@ -55,17 +55,22 @@ function listarEventos($ano,$mes){
     }
 }
 
-function listarComentarios($id){
+function listarComentarios($id,$itens,$pagina){
     $url = URL . "api/comentario/list";
     
     
     $fields = array();
     
-    $fields["maxResult"] = 50;
-    $fields["pagina"] = 1;
+    $fields["maxResult"] = $itens;
+    $fields["pagina"] = $pagina;
     
-    $fields["campos"][] = 'conteudo.id';
-    $fields["values"][] = $id;
+    if($id){
+        $fields["campos"][] = 'conteudo.id';
+        $fields["values"][] = $id;
+    }else{
+        $fields["campos"][] = 'conteudo.id';
+        $fields["values"][] = "NULL";
+    }
     
     $result = enviarDados($url, $fields);
     

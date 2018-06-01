@@ -113,6 +113,26 @@ foreach($destaques->list as $blog){
                 </div>';
 }
 
+/**/
+
+$comentarios = listarComentarios(false,3,1);
+
+$htmlComentarios = '';
+foreach($comentarios->list as $comentario){
+    
+    $htmlComentarios .= '<div class="item quote-wrapper">
+                            <blockquote class="quote-content">
+                                <div class="quote-text">' . $comentario->mensagem . '</div>
+                                <span class="quote-decor"><i class="fa fa-quote-right"></i></span>
+                            </blockquote>
+                            <div class="clearfix">
+                                <div class="people">
+                                    <div class="name">' . $comentario->nome . '</div>
+                                    <div class="years"><i class="fa fa-calendar"></i> ' . $comentario->criado . '</div>
+                                </div>
+                            </div>
+                        </div>';
+}
 ?>
         
 </head>
@@ -168,6 +188,25 @@ foreach($destaques->list as $blog){
             </div>
         </div>
     </div>
+    
+    <!-- ***** Testimony section ***** -->
+    <section class="testimony-section" id="testimonySection" style="margin-top:25px;">
+        <div class="inner animated" data-animation="fadeIn" data-animation-delay="0">
+            <div class="row">
+            	<div class="ws-title left-line">
+                	<h1 class="title">Depoimentos</h1>
+                </div>
+                <div class="carousel-wrapper">
+                    <div class="owl-carousel testimony-carousel" id="testimonyCarousel">
+                        <?php echo $htmlComentarios; ?>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <a href="<?php echo URLSITE; ?>depoimentos" class="button">Todos os Depoimentos</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <?php include_once 'inc/footer.php'; ?>
 

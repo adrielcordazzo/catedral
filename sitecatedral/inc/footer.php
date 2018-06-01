@@ -120,4 +120,26 @@
 		return false;
     }
 
+    function enviarComentario(){
+    	//openLoad();
+    	var dados = $("form#rvwForm").serializeArray();
+    	$.ajax({
+    		method: "POST",
+    		url: "<?php echo URLSITE; ?>service/service.php?acao=enviaComentario",
+    		data: dados,
+    		type: 'POST',
+    		success: function(dados) {
+    			//closeLoad();
+    			$("#msgContato").html("");
+    			if(dados == "sucesso"){
+    				$("#btnEnviar").remove();
+    				$("#msgContato").html('<div class="alert alert-success wow fadeInLeft delay-03s" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><strong>Sucesso </strong>ao enviar contato!</div>');
+    				location.reload();	
+    			}else{
+    				$("#msgContato").html('<div class="alert alert-danger wow fadeInLeft delay-03s" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><strong>Falha </strong> ao enviar contato. Tente novamente.</div>');
+    			}
+    		}
+    	});
+    }
+
 </script>

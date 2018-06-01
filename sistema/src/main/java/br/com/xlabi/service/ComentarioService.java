@@ -7,7 +7,8 @@
 
 	import javax.transaction.Transactional;
 
-	import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 	import org.hibernate.criterion.SimpleExpression;
 	import org.springframework.stereotype.Service;
 
@@ -86,7 +87,18 @@
 			SimpleExpression restricao = null;
 			SimpleExpression ruser = retriction("usuario.id", sessao.getUsuario());
 			SimpleExpression rcontratante = retriction("contratante.id", sessao.getContratante());
-			Result result = super.listRestriction(pages, "nome", "id", restricao, ruser, rcontratante);
+			
+			Criterion rnulo = null;
+			Integer indicenulo = pages.getCampos().indexOf("conteudo.id");
+			if (indicenulo > -1) {
+				if (pages.getValues().get(indicenulo).equals("NULL")) {
+					pages.getCampos().remove("conteudo.id");
+					rnulo = Restrictions.isNull("conteudo.id");
+					pages.getValues().remove("NULL");
+				} 
+			}
+			
+			Result result = super.listRestriction(pages, "nome", "id", restricao, ruser, rcontratante, rnulo);
 			inicializeList(result.getList());
 			return result;
 		}
