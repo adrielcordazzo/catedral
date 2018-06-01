@@ -10,11 +10,11 @@ $tokenapp = 'xlabi';
 define("TOKENAPP",$tokenapp);
 define("TOKENUSER",$tokenuser);
 
-define("URL","http://localhost:8080/");
-//define("URL","http://xlabi.com.br:8080/catedral/");
+//define("URL","http://localhost:8080/");
+define("URL","http://xlabi.com.br:8080/catedral/");
 
-define("URLSITE","http://localhost/sitecatedral/");
-//define("URLSITE","http://www.catedralquadrangular.com.br/");
+//define("URLSITE","http://localhost/sitecatedral/");
+define("URLSITE","http://www.catedralquadrangular.com.br/");
 
 
 function enviarDados($url, $fields){

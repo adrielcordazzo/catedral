@@ -46,7 +46,7 @@ foreach($eventos as $evento){
 
 unset($_SESSION["busca"]);
 
-$blogs = listarConteudo("40288a826328e88a016328e92bc90000",10,1);
+$blogs = listarConteudo("40288a826328e88a016328e92bc90000",6,1);
 
 $html = '';
 foreach($blogs->list as $blog){

@@ -76,7 +76,7 @@ if(count($imagens)>0){
 
 /**/
 
-$blogs = listarConteudo("40288a826328e88a016328e92bc90000",10,1);
+$blogs = listarConteudo("40288a826328e88a016328e92bc90000",5,1);
 
 $htmlUltimas = '';
 foreach($blogs->list as $blog){
